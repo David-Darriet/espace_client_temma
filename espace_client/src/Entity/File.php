@@ -13,34 +13,21 @@ class File
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 5)]
-    private $format;
-
     #[ORM\Column(type: 'string', length: 255)]
     private $path;
+
+    #[ORM\Column(type: 'string', length: 5)]
+    private $format;
 
     #[ORM\Column(type: 'datetime_immutable')]
     private $created_at;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'files')]
-    #[ORM\JoinColumn(nullable: false)]
     private $user;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getFormat(): ?string
-    {
-        return $this->format;
-    }
-
-    public function setFormat(string $format): self
-    {
-        $this->format = $format;
-
-        return $this;
     }
 
     public function getPath(): ?string
@@ -51,6 +38,18 @@ class File
     public function setPath(string $path): self
     {
         $this->path = $path;
+
+        return $this;
+    }
+
+    public function getFormat(): ?string
+    {
+        return $this->format;
+    }
+
+    public function setFormat(string $format): self
+    {
+        $this->format = $format;
 
         return $this;
     }
