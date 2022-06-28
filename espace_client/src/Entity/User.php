@@ -37,9 +37,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255)]
     private $lastname;
 
-    /**
-     * @ORM\Column(type="boolean", options={"default" : "0"})
-     */
+    #[ORM\Column(type: 'boolean', options: ["default" => 0])]
     private $isAdmin;
 
     #[ORM\Column(type: 'boolean')]

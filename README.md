@@ -5,6 +5,15 @@ Projet du 27 Juin au 8 Juillet.
 
 ## Configuration
 
+### Serveur mail
+
+Dans le `.env` :
+
+**/!\ Pour un compte gmail**
+
+Veuillez remplacer à la ligne suivant, l'email, le mot de passe et le port (en local : localhost)
+`MAILER_DSN=gmail://EMAIL:PASSWORD@PORT`
+
 ### Base de données 
 Dupliquer le `.env.example` et le renommer en `.env`.
 
@@ -14,11 +23,15 @@ Pour une base mysql :
 `DATABASE_URL="mysql://127.0.0.1:3306/<DATABASE>?charset=utf8mb4&serverVersion=5.7&user=<USERNAME>&password=<PASSWORD>"
 `
 
-### Serveur mail
+### Initialiser la base
 
-Dans le `.env` :
+Dans un terminal, faire :
 
-**/!\ Pour un compte gmail**
+`php bin/console doctrine:migrations:migrate`
 
-Veuillez remplacer à la ligne suivant, l'email, le mot de passe et le port (en local : localhost)
-`MAILER_DSN=gmail://EMAIL:PASSWORD@PORT`
+
+### Fixtures
+
+Dans un terminal, faire la commande :
+
+`php bin/console doctrine:fixtures:load`
