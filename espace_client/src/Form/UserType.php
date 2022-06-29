@@ -17,6 +17,10 @@ class UserType extends AbstractType
             ->add('firstname')
             ->add('lastname')
             ->add('isAdmin')
+            ->add('isVerified')
+            ->add('enterprise')
+            ->add('civility')
+            ->add('login')
         ;
     }
 

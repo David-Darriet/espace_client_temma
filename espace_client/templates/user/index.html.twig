@@ -15,6 +15,9 @@
                 <th>Lastname</th>
                 <th>IsAdmin</th>
                 <th>IsVerified</th>
+                <th>Enterprise</th>
+                <th>Civility</th>
+                <th>Login</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -28,6 +31,9 @@
                 <td>{{ user.lastname }}</td>
                 <td>{{ user.isAdmin ? 'Yes' : 'No' }}</td>
                 <td>{{ user.isVerified ? 'Yes' : 'No' }}</td>
+                <td>{{ user.enterprise }}</td>
+                <td>{{ user.civility }}</td>
+                <td>{{ user.login }}</td>
                 <td>
                     <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
                     <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
@@ -35,7 +41,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="9">no records found</td>
+                <td colspan="11">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
