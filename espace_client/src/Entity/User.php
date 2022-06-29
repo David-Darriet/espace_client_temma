@@ -22,26 +22,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     private $email;
 
-    #[ORM\Column(type: 'json')]
-    private $roles = [];
-
     #[ORM\Column(type: 'string')]
     private $password;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: File::class)]
     private $files;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,  nullable: true)]
     private $firstname;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,  nullable: true)]
     private $lastname;
 
-    #[ORM\Column(type: 'boolean', options: ["default" => 0])]
-    private $isAdmin;
+    #[ORM\Column(type: 'boolean')]
+    private $isAdmin = false;
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $enterprise;
+
+    #[ORM\Column(type: 'string', length: 10)]
+    private $civility;
+
+    #[ORM\Column(type: 'string', length: 7)]
+    private $login;
 
     public function __construct()
     {
@@ -192,6 +198,42 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getEnterprise(): ?string
+    {
+        return $this->enterprise;
+    }
+
+    public function setEnterprise(string $enterprise): self
+    {
+        $this->enterprise = $enterprise;
+
+        return $this;
+    }
+
+    public function getCivility(): ?string
+    {
+        return $this->civility;
+    }
+
+    public function setCivility(string $civility): self
+    {
+        $this->civility = $civility;
+
+        return $this;
+    }
+
+    public function getLogin(): ?string
+    {
+        return $this->login;
+    }
+
+    public function setLogin(string $login): self
+    {
+        $this->login = $login;
 
         return $this;
     }

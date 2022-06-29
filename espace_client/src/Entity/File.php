@@ -25,6 +25,9 @@ class File
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'files')]
     private $user;
 
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'files')]
+    private $category;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +77,18 @@ class File
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

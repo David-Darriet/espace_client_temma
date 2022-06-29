@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Category;
 use App\Entity\File;
 use App\Entity\User;
 use DateTimeImmutable;
@@ -20,7 +21,13 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $usernames = ['alice', 'bob', 'charles'];
+        $categories = ['Factures', 'Devis', 'Maintenance', "Données machines", "Echanges"];
+        foreach($categories as $category){
+            $cat = new Category;
+            $cat->setLabel($category);
+            $manager->persist($cat);
+        }
+        $usernames = ['albert', 'bob', 'charles'];
         $users = [];
         foreach ($usernames as $username) {
             $user = new User;
@@ -30,7 +37,10 @@ class AppFixtures extends Fixture
                 ->setEmail($username . '@test.fr')
                 ->setPassword($this->userPasswordHasher->hashPassword($user, 'password'))
                 ->setIsAdmin(false)
-                ->setIsVerified(true);
+                ->setIsVerified(true)
+                ->setCivility("Monsieur")
+                ->setLogin("test-" . $username[0] . $username[1])
+                ->setEnterprise($username);
             $manager->persist($user);
             $users[$username] = $user;
 
@@ -54,7 +64,10 @@ class AppFixtures extends Fixture
             ->setEmail( 'admin@admin.fr')
             ->setPassword($this->userPasswordHasher->hashPassword($admin, 'password'))
             ->setIsAdmin(true)
-            ->setIsVerified(true);
+            ->setIsVerified(true)
+            ->setCivility("Monsieur")
+            ->setLogin("admin")
+            ->setEnterprise("Temma");
         $manager->persist($admin);
 
         $userWithoutFile = new User;
@@ -64,7 +77,10 @@ class AppFixtures extends Fixture
             ->setEmail('jeanbon@test.fr')
             ->setPassword($this->userPasswordHasher->hashPassword($userWithoutFile, 'password'))
             ->setIsAdmin(false)
-            ->setIsVerified(true);
+            ->setIsVerified(true)
+            ->setCivility("Monsieur")
+            ->setLogin("test-jb")
+            ->setEnterprise("EntrepriseTest");;
         $manager->persist($userWithoutFile);
 
         $manager->flush();
