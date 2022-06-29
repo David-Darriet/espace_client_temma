@@ -1,42 +1,60 @@
 {% extends 'base.html.twig' %}
+{% block title %}Connexion{% endblock %}
 
-{% block title %}Log in!{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/authentification/authentification.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+    <form method="post">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+        {% if app.user %}
+            <div class="mb-3">
+                Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Se déconnecter</a>
+            </div>
+        {% endif %}
+        <div class="container-auth">
+            <img src="{{ asset('img/logoTemma.png') }}" alt="Logo TEMMA" class="logo-auth"/>
+            <h1>Connexion</h1>
+            <div class="container-auth-inside-input">
+                <div class="container-auth-input">
+                    <label for="login">Identifiant</label>
+                    <input type="text" value="{{ last_username }}" name="login" id="login" class="form-control input-auth"
+                           autocomplete="login" required autofocus>
+                </div>
+                <div class="container-auth-input">
+                    <label for="inputPassword">Mot de passe</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control input-auth"
+                           autocomplete="current-password" required>
+                    <a href="#">Mot de passe oublié ?</a>
+                </div>
+                <input type="hidden" name="_csrf_token"
+                       value="{{ csrf_token('authenticate') }}"
+                >
+                <button class="btn btn-lg btn-primary btn-auth" type="submit">
+                    Se connecter
+                </button>
+            </div>
+
+            {#
+            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+            See https://symfony.com/doc/current/security/remember_me.html
+
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" name="_remember_me"> Remember me
+                </label>
+            </div>
+            #}
+
+            <div class="link-bottom-auth">
+                <span>Nouveau sur TEMMA ?</span>
+                <a href="http://www.temma.fr/contact-view-66-93.html">Remplir le formulaire de contact</a>
+            </div>
         </div>
-    {% endif %}
-
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
-
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
-        </div>
-    #}
-
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+    </form>
 {% endblock %}
