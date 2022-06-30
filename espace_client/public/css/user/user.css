@@ -15,6 +15,9 @@
 .btn-user-add > a {
     color: white;
     text-decoration:none;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 /*  --- fin a href ---  */
