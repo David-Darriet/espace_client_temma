@@ -5,3 +5,23 @@ body {
     height: 100%;
     margin: 0;
 }
+
+.color-white {
+    color: white;
+}
+
+h1 {
+    padding-left: 2rem;
+    color: #A62A3D;
+}
+
+hr {
+    color: #D9D9D9;
+}
+
+/* coupe le mot et ajoute "..." à la fin */
+.cut-txt-overflow {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

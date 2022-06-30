@@ -1,0 +1,81 @@
+.btn-user-add {
+    background: #A62A3D;
+    border: none;
+    border-radius: 0.4em;
+    padding: 0.7rem;
+    margin-left: 2rem;
+    margin-bottom: 2rem;
+}
+
+.btn-user-add:hover {
+    background: #57000D;
+}
+
+/*  --- a href ---  */
+.btn-user-add > a {
+    color: white;
+    text-decoration:none;
+}
+
+/*  --- fin a href ---  */
+
+/*  --- Liste user --- */
+.divTable {
+    margin-right: 2rem;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.divTableRow {
+    display: flex;
+    margin-left: 2rem;
+}
+
+.divTableRow:not(:first-child) {
+    border-radius: 0.4em;
+    border: none;
+    padding: 0.2rem;
+    margin-bottom: 0.5rem;
+    background: #A62A3D;
+    color: white;
+}
+
+.divTableRow:not(:first-child):hover{
+    background: #57000D;
+    cursor: pointer;
+}
+
+.divTableCell:not(:nth-child(2)) {
+    flex: 2;
+}
+
+.divTableCell:nth-child(2) {
+    flex: 1;
+}
+
+.divTableCell:first-child {
+    padding-left: 0.5rem;
+}
+
+.padding-right-after-cut-word {
+    padding-right: 1em !important;
+}
+
+.divTableCell {
+    padding-right: 0.5rem;
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+}
+/*  --- Fin liste user --- */
+
+
+/* --- MEDIA QUERRIES --- */
+/* --- Version téléphone --- */
+@media only screen and (max-width: 767px) {
+    .responsive-user {
+        display: none;
+    }
+}
+/* --- FIN MEDIA QUERRIES --- */

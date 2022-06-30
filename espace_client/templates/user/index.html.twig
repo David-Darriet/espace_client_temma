@@ -1,51 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User index{% endblock %}
+{% block title %}Liste des utilisateurs{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/user/user.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
+    <h1>Liste des utilisateurs</h1>
+    <hr>
+    <button class="btn-user-add">
+        <a href="{{ path('app_user_new') }}">
+            <i class="fa-solid fa-plus color-white"></i>
+            Nouvel utilisateur
+        </a>
+    </button>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Password</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>IsAdmin</th>
-                <th>IsVerified</th>
-                <th>Enterprise</th>
-                <th>Civility</th>
-                <th>Login</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="divTable">
+        <div class="divTableRow bold">
+            <div class="divTableCell">Entreprise</div>
+            <div class="divTableCell responsive-user">Civilité</div>
+            <div class="divTableCell responsive-user">Prénom</div>
+            <div class="divTableCell responsive-user">Nom</div>
+            <div class="divTableCell">Email</div>
+        </div>
         {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.password }}</td>
-                <td>{{ user.firstname }}</td>
-                <td>{{ user.lastname }}</td>
-                <td>{{ user.isAdmin ? 'Yes' : 'No' }}</td>
-                <td>{{ user.isVerified ? 'Yes' : 'No' }}</td>
-                <td>{{ user.enterprise }}</td>
-                <td>{{ user.civility }}</td>
-                <td>{{ user.login }}</td>
-                <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
-                </td>
-            </tr>
+            <div class="divTableRow">
+                <div class="divTableCell padding-right-after-cut-word cut-txt-overflow">{{ user.enterprise }}</div>
+                <div class="divTableCell responsive-user">{{ user.civility }}</div>
+                <div class="divTableCell padding-right-after-cut-word cut-txt-overflow responsive-user">{{ user.firstname }}</div>
+                <div class="divTableCell padding-right-after-cut-word cut-txt-overflow responsive-user">{{ user.lastname }}</div>
+                <div class="divTableCell">&nbsp;{{ user.email }}</div>
+            </div>
         {% else %}
-            <tr>
-                <td colspan="11">no records found</td>
-            </tr>
         {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_user_new') }}">Create new</a>
+    </div>
 {% endblock %}

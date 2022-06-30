@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 #[Route('/')]
 class UserController extends AbstractController
@@ -16,6 +18,14 @@ class UserController extends AbstractController
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
+//        $loader = new FilesystemLoader(dirname(dirname(__DIR__)) . '/templates/user');
+//        $twig = new \Twig\Environment($loader);
+//        $function = new \Twig\TwigFunction('MobileDetect', function () {
+//            return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo
+//    |fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i"
+//                , $_SERVER["HTTP_USER_AGENT"]);
+//        });
+//        $twig->addFunction($function);
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
         ]);
