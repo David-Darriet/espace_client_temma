@@ -3,76 +3,45 @@
 namespace App\Controller;
 
 use App\Entity\Category;
-use App\Form\CategoryType;
+use App\Entity\User;
 use App\Repository\CategoryRepository;
+use App\Repository\FileRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/category')]
+#[Route('/')]
 class CategoryController extends AbstractController
 {
-    #[Route('/', name: 'app_category_index', methods: ['GET'])]
+    #[Route('/', name: 'app_user_category_index', methods: ['GET'])]
     public function index(CategoryRepository $categoryRepository): Response
     {
-        return $this->render('category/index.html.twig', [
-            'categories' => $categoryRepository->findAll(),
-        ]);
-    }
-
-    #[Route('/new', name: 'app_category_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, CategoryRepository $categoryRepository): Response
-    {
-        $category = new Category();
-        $form = $this->createForm(CategoryType::class, $category);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $categoryRepository->add($category, true);
-
-            return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
+        if ($this->getUser() != null) {
+            if ($this->getUser()->getRoles() === ["ROLE_ADMIN"]) {
+                return $this->redirectToRoute('app_admin_index');
+            }
+            return $this->render('category/index.html.twig', [
+                'user' => $this->getUser(),
+                'categories' => $categoryRepository->findAll(),
+            ]);
+        } else {
+            return $this->redirectToRoute('app_login');
         }
-
-        return $this->renderForm('category/new.html.twig', [
-            'category' => $category,
-            'form' => $form,
-        ]);
     }
 
-    #[Route('/{id}', name: 'app_category_show', methods: ['GET'])]
-    public function show(Category $category): Response
+    #[Route('/{category_label}/files', name: 'app_category_show', methods: ['GET'])]
+    public function show(FileRepository     $fileRepository,
+                         CategoryRepository $categoryRepository,
+                         string             $category_label): Response
     {
-        return $this->render('category/show.html.twig', [
-            'category' => $category,
+        /** @var User $user */
+        $user = $this->getUser();
+
+        return $this->render('file/index.html.twig', [
+            'user' => $user,
+            'category' => $categoryRepository->findOneByLabel($category_label),
+            'files' => $fileRepository->findByUserAndCategory($user->getLogin(), $category_label),
         ]);
-    }
-
-    #[Route('/{id}/edit', name: 'app_category_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Category $category, CategoryRepository $categoryRepository): Response
-    {
-        $form = $this->createForm(CategoryType::class, $category);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $categoryRepository->add($category, true);
-
-            return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('category/edit.html.twig', [
-            'category' => $category,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_category_delete', methods: ['POST'])]
-    public function delete(Request $request, Category $category, CategoryRepository $categoryRepository): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
-            $categoryRepository->remove($category, true);
-        }
-
-        return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
     }
 }

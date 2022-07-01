@@ -4,16 +4,17 @@
 
 {% block body %}
     <h1>File index</h1>
+    {{ user.login }}
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Path</th>
-                <th>Format</th>
-                <th>Created_at</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Path</th>
+            <th>Format</th>
+            <th>Created_at</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for file in files %}
@@ -21,10 +22,12 @@
                 <td>{{ file.id }}</td>
                 <td>{{ file.path }}</td>
                 <td>{{ file.format }}</td>
-                <td>{{ file.createdAt ? file.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ file.created_at ? file.created_at|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_file_show', {'id': file.id}) }}">show</a>
-                    <a href="{{ path('app_file_edit', {'id': file.id}) }}">edit</a>
+                    Télécharger
+                    {% if app.user.roles[0] is same as('ROLE_ADMIN') %}
+                        {{ include('file/_delete_form.html.twig') }}
+                    {% endif %}
                 </td>
             </tr>
         {% else %}

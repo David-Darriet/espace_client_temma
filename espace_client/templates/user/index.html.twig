@@ -26,13 +26,13 @@
             <div class="divTableCell">Email</div>
         </div>
         {% for user in users %}
-            <div class="divTableRow">
-                <div class="divTableCell padding-right-after-cut-word cut-txt-overflow">{{ user.enterprise }}</div>
-                <div class="divTableCell responsive-user">{{ user.civility }}</div>
-                <div class="divTableCell padding-right-after-cut-word cut-txt-overflow responsive-user">{{ user.firstname }}</div>
-                <div class="divTableCell padding-right-after-cut-word cut-txt-overflow responsive-user">{{ user.lastname }}</div>
-                <div class="divTableCell">&nbsp;{{ user.email }}</div>
-            </div>
+                <div class="divTableRow">
+                    <div class="divTableCell padding-right-after-cut-word cut-txt-overflow"><a href="{{ path('app_admin_category_index', {'user_login': user.login}) }}" class=" color-white">{{ user.enterprise }}</a></div>
+                    <div class="divTableCell responsive-user">{{ user.civility }}</div>
+                    <div class="divTableCell padding-right-after-cut-word cut-txt-overflow responsive-user">{{ user.firstname }}</div>
+                    <div class="divTableCell padding-right-after-cut-word cut-txt-overflow responsive-user">{{ user.lastname }}</div>
+                    <div class="divTableCell">&nbsp;{{ user.email }}</div>
+                </div>
         {% else %}
         {% endfor %}
     </div>

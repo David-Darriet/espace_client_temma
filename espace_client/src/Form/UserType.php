@@ -33,6 +33,7 @@ class UserType extends AbstractType
             ->add('isAdmin', CheckboxType::class, [
                     'label' => 'Est un administrateur',
                     'required'=>false,
+                    'data' => false,
                 ]
             )
             ->add('enterprise', TextType::class, [

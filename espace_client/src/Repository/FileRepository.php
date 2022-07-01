@@ -2,8 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\File;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -54,13 +57,27 @@ class FileRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?File
-//    {
-//        return $this->createQueryBuilder('f')
-//            ->andWhere('f.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+   public function findByUserAndCategory($user_login, $category_label): array|float|int|string
+   {
+        return $this->createQueryBuilder('f')
+            ->innerJoin(
+                User::class,
+                'u',
+                Join::WITH,
+                'u.id = f.user'
+            )
+            ->andWhere('u.login = :user_login')
+            ->setParameter('user_login', $user_login)
+            ->innerJoin(
+                Category::class,
+                'c',
+                Join::WITH,
+                'c.id = f.category'
+            )
+            ->andWhere('c.label = :category_id')
+            ->setParameter('category_id', $category_label)
+            ->getQuery()
+            ->getArrayResult()
+            ;
+    }
 }
