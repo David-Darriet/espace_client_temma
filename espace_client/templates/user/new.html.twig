@@ -1,11 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New User{% endblock %}
+{% block title %}Création d'un nouvel utilisateur{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/user/user.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% endblock %}
 
 {% block body %}
-    <h1>Create new User</h1>
-
+    <h1>Création d'un nouvel utilisateur</h1>
     {{ include('user/_form.html.twig') }}
 
-    <a href="{{ path('app_user_index') }}">back to list</a>
+    <div class="margin-left-2-rem margin-top-2-rem">
+        <a href="{{ path('app_user_index') }}">Retour à la liste des utilisateurs</a>
+    </div>
 {% endblock %}

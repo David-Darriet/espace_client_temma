@@ -8,6 +8,7 @@ use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -18,29 +19,24 @@ class UserController extends AbstractController
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
-//        $loader = new FilesystemLoader(dirname(dirname(__DIR__)) . '/templates/user');
-//        $twig = new \Twig\Environment($loader);
-//        $function = new \Twig\TwigFunction('MobileDetect', function () {
-//            return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo
-//    |fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i"
-//                , $_SERVER["HTTP_USER_AGENT"]);
-//        });
-//        $twig->addFunction($function);
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
         ]);
     }
 
     #[Route('/user/new', name: 'app_user_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, UserRepository $userRepository): Response
+    public function new(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
+        $mdpRandom = User::randomPassword();
+        $user->setPassword($userPasswordHasher->hashPassword($user,$mdpRandom));
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $entreprise = $_POST['user']['enterprise'];
+            $user->setLogin($entreprise);
             $userRepository->add($user, true);
-
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 

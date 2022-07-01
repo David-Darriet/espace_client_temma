@@ -6,8 +6,21 @@ body {
     margin: 0;
 }
 
+.color-red {
+    color: #A62A3D;
+}
 .color-white {
     color: white;
+}
+
+.color-blue {
+    color: blue;
+}
+
+.choice-field {
+    border: solid 1px #A62A3D;
+    border-radius: 0.4em;
+    height: 2.5rem;
 }
 
 h1 {
@@ -24,4 +37,57 @@ hr {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.margin-top-2-rem {
+    margin-top: 2rem;
+}
+
+.margin-left-2-rem {
+    margin-left: 2rem;
+}
+
+.flex-column {
+    flex-direction: column;
+    display: flex;
+}
+
+.flex-row {
+    flex-direction: row;
+    display: flex;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.input {
+    width: 300px;
+    min-width: 30%;
+    height: 2.5rem;
+    border-radius: 0.4em;
+    border: solid 1px #A62A3D;
+}
+
+.input-long {
+    width: 32.5vw;
+    min-width: 30%;
+    height: 2.5rem;
+    border-radius: 0.4em;
+    border: solid 1px #A62A3D;
+}
+
+.input:focus-visible {
+    outline-color: #A62A3D;
+}
+
+.btn {
+    background: #A62A3D;
+    color: white;
+    border-radius: 0.4em;
+    width: 300px;
+    min-width: 30%;
+    height: 2.5rem;
+    border: none;
+    font-size: larger;
 }

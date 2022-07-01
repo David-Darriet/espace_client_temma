@@ -11,6 +11,11 @@
     background: #57000D;
 }
 
+.btn:hover {
+    background: #57000D;
+    cursor: pointer;
+}
+
 /*  --- a href ---  */
 .btn-user-add > a {
     color: white;
@@ -73,12 +78,57 @@
 }
 /*  --- Fin liste user --- */
 
+.container-user-inside-input {
+    border: solid 1px #A62A3D;
+    border-radius: 1em;
+    padding: 2em;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    width: 60vw;
+}
+
+.container-user-inside-input > .btn {
+    align-self: center;
+}
+
 
 /* --- MEDIA QUERRIES --- */
 /* --- Version téléphone --- */
 @media only screen and (max-width: 767px) {
     .responsive-user {
         display: none;
+    }
+
+    .flex-row {
+        flex-direction: column;
+    }
+
+    .input {
+        width: 58vw;
+        min-width: 30%;
+        height: 2.5rem;
+        border-radius: 0.4em;
+        border: solid 1px #A62A3D;
+    }
+
+    .input-long {
+        width: 58vw;
+        min-width: 30%;
+        height: 2.5rem;
+        border-radius: 0.4em;
+        border: solid 1px #A62A3D;
+    }
+
+    .btn {
+        background: #A62A3D;
+        color: white;
+        border-radius: 0.4em;
+        width: 60vw;
+        min-width: 30%;
+        height: 2.5rem;
+        border: none;
+        font-size: larger;
     }
 }
 /* --- FIN MEDIA QUERRIES --- */

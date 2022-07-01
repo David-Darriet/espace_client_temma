@@ -7,11 +7,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'Un compte existe déjà avec cette adresse mail')]
+#[UniqueEntity(fields: ['login'], message: 'Un compte existe déjà avec ce login')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -28,10 +30,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: File::class)]
     private $files;
 
-    #[ORM\Column(type: 'string', length: 255,  nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $firstname;
 
-    #[ORM\Column(type: 'string', length: 255,  nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $lastname;
 
     #[ORM\Column(type: 'boolean')]
@@ -46,7 +48,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 10)]
     private $civility;
 
-    #[ORM\Column(type: 'string', length: 7)]
+    #[ORM\Column(type: 'string', length: 7, unique:true)]
     private $login;
 
     public function __construct()
@@ -78,7 +80,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->login;
+        return (string)$this->login;
     }
 
     /**
@@ -215,15 +217,54 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     * @see
+     */
     public function getLogin(): ?string
     {
         return $this->login;
     }
 
-    public function setLogin(string $login): self
+    public function setLogin(string $enterprise): self
     {
-        $this->login = $login;
+        $this->login = self::randomLogin($enterprise);
 
         return $this;
+    }
+
+    static function randomPassword()
+    {
+        $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*-\.?/';
+        $pass = [];
+        $alphaLength = strlen($alphabet) - 1;
+        for ($i = 0; $i < 8; $i++) {
+            $n = rand(0, $alphaLength);
+            $pass[] = $alphabet[$n];
+        }
+        return implode($pass);
+    }
+
+    public static function randomLogin(string $enterprise)
+    {
+        $limit = 4;
+        $newLogin = [];
+        if (strlen($enterprise) == 1) {
+            $limit = 6;
+        }
+        elseif (strlen($enterprise) == 2) {
+            $limit = 5;
+        }
+        $enterpriseWithoutSpace = str_replace(' ', '', $enterprise);
+        $login = substr($enterpriseWithoutSpace, 0, 3);
+        $newLogin[] = $login;
+
+        $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+        $alphaLength = strlen($alphabet) - 1;
+        for ($i = 0; $i < $limit; $i++) {
+            $n = rand(0, $alphaLength);
+            $newLogin[] = $alphabet[$n];
+        }
+        return implode($newLogin);
     }
 }
