@@ -1,0 +1,67 @@
+main {
+    padding: 0;
+}
+
+.page_header {
+    margin: 0 0 0.5rem 0;
+    padding: 1rem;
+    border-bottom: 1px solid #E8E8E8;
+}
+
+.page_header h1 {
+    padding: 0;
+}
+
+.page-header a {
+    text-decoration: none;
+    border-bottom: 1px solid black;
+    color: black;
+}
+
+.page_header span{
+    color : #1e1d1d;
+}
+table{
+    width: 100%;
+    margin: 0;
+}
+
+table thead, table tbody {
+    display: flex;
+    flex-direction: column;
+}
+
+table thead tr{
+    display: flex;
+    gap: 2rem;
+    flex: 2;
+}
+
+table thead{
+    margin: 0 0 0 2rem;
+}
+table tbody tr{
+    padding: 2rem;
+    margin: 0;
+    display: flex;
+    flex: 2;
+}
+table tbody tr:nth-child(2n){
+    background-color: #F5E8EA;
+}
+
+table tbody tr:nth-child(2n+1){
+    background-color: white;
+}
+
+table tbody tr:hover{
+    background-color: #A62A3D;
+    cursor: pointer;
+    color: white;
+}
+
+.file_action{
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}

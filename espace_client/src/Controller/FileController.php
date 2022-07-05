@@ -4,9 +4,7 @@ namespace App\Controller;
 
 use App\Entity\File;
 use App\Form\FileType;
-use App\Repository\CategoryRepository;
 use App\Repository\FileRepository;
-use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

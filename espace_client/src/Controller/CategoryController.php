@@ -2,11 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Category;
 use App\Entity\User;
 use App\Repository\CategoryRepository;
 use App\Repository\FileRepository;
-use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,7 +21,7 @@ class CategoryController extends AbstractController
             }
             return $this->render('category/index.html.twig', [
                 'user' => $this->getUser(),
-                'categories' => $categoryRepository->findAll(),
+                'categories' => $categoryRepository->findBy(array(), array('label' => 'ASC')),
             ]);
         } else {
             return $this->redirectToRoute('app_login');

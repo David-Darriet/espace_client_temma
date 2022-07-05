@@ -28,7 +28,7 @@ class AdminController extends AbstractController
     public function index(UserRepository $userRepository): Response
     {
         return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => $userRepository->findBy(array(), array('enterprise' => 'ASC')),
         ]);
     }
 
@@ -36,8 +36,8 @@ class AdminController extends AbstractController
     public function indexCategory(CategoryRepository $categoryRepository, UserRepository $userRepository, string $user_login): Response
     {
         return $this->render('category/index.html.twig', [
-            'user' => $userRepository->findOneByLogin($user_login),
-            'categories' => $categoryRepository->findAll(),
+            'user'=> $userRepository->findOneByLogin($user_login),
+            'categories' => $categoryRepository->findBy(array(), array('label' => 'ASC')),
         ]);
     }
 

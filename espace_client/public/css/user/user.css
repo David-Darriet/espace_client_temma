@@ -30,6 +30,7 @@
 /*  --- Liste user --- */
 .divTable {
     margin-right: 2rem;
+    padding-bottom: 2rem;
 }
 
 .bold {
@@ -39,6 +40,7 @@
 .divTableRow {
     display: flex;
     margin-left: 2rem;
+    align-items: center;
 }
 
 .divTableRow:not(:first-child) {
@@ -52,15 +54,13 @@
 
 .divTableRow:not(:first-child):hover{
     background: #57000D;
-    cursor: pointer;
 }
 
-.divTableCell:not(:nth-child(2)) {
+.divTableCell:not(:last-child) {
     flex: 2;
 }
-
-.divTableCell:nth-child(2) {
-    flex: 1;
+.divTableCell:last-child {
+    flex: 5;
 }
 
 .divTableCell:first-child {
@@ -92,7 +92,40 @@
     align-self: center;
 }
 
+.action_user{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+.action_user a, .action_user button{
+    color: white;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+}
 
+.action_user a span, .action_user button span{
+    font-size: 12px;
+    font-family: 'Quicksand', serif;
+}
+
+.action_user a:hover span, form button:hover span{
+    border-bottom: 1px solid white;
+}
+
+form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+}
+form button{
+    width: 100%;
+}
 /* --- MEDIA QUERRIES --- */
 /* --- Version téléphone --- */
 @media only screen and (max-width: 767px) {

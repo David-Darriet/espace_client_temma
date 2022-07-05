@@ -1,0 +1,23 @@
+nav,
+.actions,
+.action_user a,
+.no-print {
+    display: none !important;
+}
+
+body *,
+i,
+.color-blue,
+.color-white{
+    color: black;
+    background-color: white;
+}
+
+.input,
+.input-long,
+.choice-field {
+    border: 1px solid black !important;
+}
+.container-user-inside-input {
+ border: none;
+}

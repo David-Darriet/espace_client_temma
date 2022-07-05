@@ -1,42 +1,63 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}File index{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/layout_pages.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/user/file.css') }}">
+{% endblock %}
+{% block title %}Liste des fichiers de  {{ category.label }}{% endblock %}
 
 {% block body %}
-    <h1>File index</h1>
-    {{ user.login }}
+    {% if app.user.roles[0] is same as('ROLE_ADMIN') %}
+        <div class="page_header no-print">
+            <h1>Zone d'archivage de l'entreprise {{ user.enterprise }} </h1>
+            <div>
+                <a href="{{ path("app_admin_index") }}">Accueil</a>
+                <span>/</span>
+                <a
+                        href="{{ path('app_admin_category_index', {'user_login': user.login}) }}"> Dossier
+                    de {{ user.enterprise }}</a>
+                <span>/</span>
+                <a
+                        href="{{ path('app_admin_file_index', {'user_login': user.login, 'category_label': category.label}) }}">{{ category.label }}
+                </a>
+            </div>
+        </div>
+    {% endif %}
+    {% if app.user.roles[0] is same as('ROLE_USER') %}
+        <div class="page_header no-print">
+            <h1>Zone d'archivage de l'entreprise {{ user.enterprise }} </h1>
+            <div>
+                <a href="{{ path("app_user_category_index") }}">Accueil</a> /
+                <a href="{{ path('app_admin_file_index', {'user_login': user.login, 'category_label': category.label}) }}">{{ category.label }}
+                </a>
+            </div>
+        </div>
+    {% endif %}
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Path</th>
-            <th>Format</th>
-            <th>Created_at</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
+    <div class="divTable">
+        <div class="divTableRow bold">
+            <div class="divTableCell namefile">Nom du fichier</div>
+            <div class="divTableCell responsive-user">Format</div>
+            <div class="divTableCell responsive-user">Date d'ajout</div>
+            <div class="divTableCell responsive-user no-print">Actions</div>
+        </div>
         {% for file in files %}
-            <tr>
-                <td>{{ file.id }}</td>
-                <td>{{ file.path }}</td>
-                <td>{{ file.format }}</td>
-                <td>{{ file.created_at ? file.created_at|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    Télécharger
-                    {% if app.user.roles[0] is same as('ROLE_ADMIN') %}
-                        {{ include('file/_delete_form.html.twig') }}
-                    {% endif %}
-                </td>
-            </tr>
+            <div class="divTableRow"
+                 onclick="location.href='{{ path('app_admin_category_index', {'user_login': user.login}) }}';">
+                <div class="divTableCell namefile content padding-right-after-cut-word cut-txt-overflow">{{ file.path }}</div>
+                <div class="divTableCell content responsive-user">{{ file.format }}</div>
+                <div class="divTableCell content padding-right-after-cut-word cut-txt-overflow responsive-user">{{ file.created_at ? file.created_at|date('d-m-Y') : '' }}</div>
+                <div class="divTableCell content padding-right-after-cut-word cut-txt-overflow responsive-user no-print">
+                    <div class="file_action">
+                        <a href="{{ file.path }}" target="_blank"><i class="fa fa-download"></i><span>Télécharger</span></a>
+                        {% if app.user.roles[0] is same as('ROLE_ADMIN') %}
+                            {{ include('file/_delete_form.html.twig') }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
+            <div>Pas de fichier.</div>
         {% endfor %}
-        </tbody>
-    </table>
+    </div>
 
-    <a href="{{ path('app_file_new') }}">Create new</a>
 {% endblock %}

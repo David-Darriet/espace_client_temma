@@ -1,58 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User{% endblock %}
+{% block title %}Détails du client {{ user.enterprise }}{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+    <h1>Détail du client</h1>
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
-            </tr>
-            <tr>
-                <th>Firstname</th>
-                <td>{{ user.firstname }}</td>
-            </tr>
-            <tr>
-                <th>Lastname</th>
-                <td>{{ user.lastname }}</td>
-            </tr>
-            <tr>
-                <th>IsAdmin</th>
-                <td>{{ user.isAdmin ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>IsVerified</th>
-                <td>{{ user.isVerified ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Enterprise</th>
-                <td>{{ user.enterprise }}</td>
-            </tr>
-            <tr>
-                <th>Civility</th>
-                <td>{{ user.civility }}</td>
-            </tr>
-            <tr>
-                <th>Login</th>
-                <td>{{ user.login }}</td>
-            </tr>
+        <tr>
+            <th>Enterprise</th>
+            <td>{{ user.enterprise }}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{ user.email }}</td>
+        </tr>
+        <tr>
+            <th>Civilité</th>
+            <td>{{ user.civility }}</td>
+        </tr>
+        <tr>
+            <th>Prénom</th>
+            <td>{{ user.firstname }}</td>
+        </tr>
+        <tr>
+            <th>Nom</th>
+            <td>{{ user.lastname }}</td>
+        </tr>
+        <tr>
+            <th>Login</th>
+            <td>{{ user.login }}</td>
+        </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_user_category_index') }}">back to list</a>
+    <a href="{{ path('app_user_category_index') }}" class="no-print">Retour</a>
 
-    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+    <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="no-print">Editer</a>
 
     {{ include('user/_delete_form.html.twig') }}
 {% endblock %}

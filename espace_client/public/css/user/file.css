@@ -1,0 +1,127 @@
+/*  --- Liste file --- */
+.namefile{
+    flex: 9 !important;
+}
+.content{
+    padding-left: 1rem;
+}
+.divTable {
+    margin-right: 2rem;
+    padding-bottom: 2rem;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.divTableRow {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+}
+
+.divTableRow:not(:first-child) {
+    border: none;
+    color: black;
+}
+
+.divTableRow:not(:first-child):nth-child(2n+1){
+    background-color: #F5E8EA;
+}
+
+.divTableRow:not(:first-child):nth-child(2n){
+    background-color: white;
+}
+
+.divTableRow:not(:first-child):hover{
+    background: #A62A3D;
+    cursor: pointer;
+    color: white
+}
+
+.divTableCell {
+    flex: 3;
+}
+
+.divTableCell:first-child {
+    padding-left: 0.5rem;
+}
+
+.padding-right-after-cut-word {
+    padding-right: 1em !important;
+}
+
+.divTableCell {
+    padding: 0.5rem;
+}
+
+.file_action a, .file_action form button{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    text-decoration: none;
+}
+
+.file_action a span, .file_action form button span{
+    font-size: 12px;
+    font-family: 'Quicksand', serif;
+}
+
+.fa-trash{
+    color: #A62A3D;
+}
+
+.divTableRow:not(:first-child):hover .fa-trash,
+.divTableRow:not(:first-child):hover .fa-download,
+.divTableRow:not(:first-child):hover .file_action span,
+.divTableRow:not(:first-child):hover .file_action a
+{
+    color: white;
+    cursor: pointer;
+}
+
+.divTableRow:not(:first-child):hover .file_action span{
+    text-decoration: none;
+    border-bottom: 1px solid white;
+}
+
+.divTableRow:not(:first-child):hover a:hover span,
+.divTableRow:not(:first-child):hover button:hover span{
+    text-decoration: none;
+    border-bottom: 1px solid white;
+}
+
+/*  --- Fin liste file --- */
+
+
+/* --- MEDIA QUERRIES --- */
+/* --- Version téléphone --- */
+@media only screen and (max-width: 767px) {
+    .responsive-user {
+        display: none;
+    }
+
+    .flex-row {
+        flex-direction: column;
+    }
+
+    .input {
+        width: 58vw;
+        min-width: 30%;
+        height: 2.5rem;
+        border-radius: 0.4em;
+        border: solid 1px #A62A3D;
+    }
+
+    .input-long {
+        width: 58vw;
+        min-width: 30%;
+        height: 2.5rem;
+        border-radius: 0.4em;
+        border: solid 1px #A62A3D;
+    }
+
+}
+/* --- FIN MEDIA QUERRIES --- */

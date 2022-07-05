@@ -76,6 +76,7 @@ class FileRepository extends ServiceEntityRepository
             )
             ->andWhere('c.label = :category_id')
             ->setParameter('category_id', $category_label)
+            ->orderBy('f.created_at', 'desc')
             ->getQuery()
             ->getArrayResult()
             ;

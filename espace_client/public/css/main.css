@@ -139,3 +139,8 @@ hr {
     border: solid 1px #f8d7da;
     color: #f5c2c7;
 }
+
+.not-btn{
+    background-color: transparent;
+    border: none;
+}

@@ -38,14 +38,19 @@
             {{ form_errors(form.lastname) }}
         </div>
     </div>
+    {% if app.user.roles[0] is same as('ROLE_ADMIN') %}
     <div>
-        {{ form_label(form.isAdmin) }}
-        {{ form_widget(form.isAdmin) }}
-    </div>
-    <div class="color-red bold">
-        Merci de remplir les champs obligatoires comportant une astérisque ( * ).
-    </div>
+        {% else %}
+        <div style="display:none">
+            {% endif %}
 
-    <button class="btn">{{ button_label|default('Créer l\'utilisateur') }}</button>
-</div>
-{{ form_end(form) }}
+            {{ form_label(form.isAdmin) }}
+            {{ form_widget(form.isAdmin) }}
+        </div>
+        <div class="color-red bold">
+            Merci de remplir les champs obligatoires comportant une astérisque ( * ).
+        </div>
+
+        <button class="btn">{{ button_label|default('Créer l\'utilisateur') }}</button>
+    </div>
+    {{ form_end(form) }}

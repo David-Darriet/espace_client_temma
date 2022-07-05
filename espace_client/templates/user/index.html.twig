@@ -1,9 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des utilisateurs{% endblock %}
+{% block title %}Liste des clients{% endblock %}
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/user/user.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/layout_pages.css') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 {% endblock %}
 
@@ -15,9 +16,16 @@
             </div>
         {% endfor %}
     {% endfor %}
-    <h1>Liste des utilisateurs</h1>
-    <hr>
-    <button class="btn-user-add">
+    <div class="page_header">
+        <h1>Liste des clients</h1>
+    </div>
+    <button class="btn-user-add no-print">
+        <a href="{{ path('app_user_new') }}">
+            <i class="fa-solid fa-file-import"></i>
+            Importer des clients à partir d'un csv
+        </a>
+    </button>
+    <button class="btn-user-add no-print">
         <a href="{{ path('app_user_new') }}">
             <i class="fa-solid fa-plus color-white"></i>
             Nouvel utilisateur
@@ -26,20 +34,35 @@
     <div class="divTable">
         <div class="divTableRow bold">
             <div class="divTableCell">Entreprise</div>
-            <div class="divTableCell responsive-user">Civilité</div>
-            <div class="divTableCell responsive-user">Prénom</div>
-            <div class="divTableCell responsive-user">Nom</div>
-            <div class="divTableCell">Email</div>
+            <div class="divTableCell responsive-user">Email</div>
+            <div class="divTableCell actions">Actions</div>
         </div>
         {% for user in users %}
-                <div class="divTableRow">
-                    <div class="divTableCell padding-right-after-cut-word cut-txt-overflow"><a href="{{ path('app_admin_category_index', {'user_login': user.login}) }}" class=" color-white">{{ user.enterprise }}</a></div>
-                    <div class="divTableCell responsive-user">{{ user.civility }}</div>
-                    <div class="divTableCell padding-right-after-cut-word cut-txt-overflow responsive-user">{{ user.firstname }}</div>
-                    <div class="divTableCell padding-right-after-cut-word cut-txt-overflow responsive-user">{{ user.lastname }}</div>
-                    <div class="divTableCell">&nbsp;{{ user.email }}</div>
+            <div class="divTableRow">
+                <div class="divTableCell padding-right-after-cut-word cut-txt-overflow">{{ user.enterprise }}</div>
+                <div class="divTableCell responsive-user">{{ user.email }}</div>
+                <div class="divTableCell action_user actions">
+                    <a href="{{ path('app_user_show', {'id': user.id })}}">
+                        <i class="fa-solid fa-eye"></i>
+                        <span>Voir les détails</span>
+                    </a>
+                    <a href="{{ path('app_user_edit', {'id': user.id })}}">
+                        <i class="fa-solid fa-user-pen"></i>
+                        <span>Editer le client</span>
+                    </a>
+                    {{ include('user/_delete_form.html.twig') }}
+                    <a href="{{ path('app_admin_category_index', {'user_login': user.login}) }}">
+                        <i class="fa-solid fa-folder-open"></i>
+                        <span>Accéder aux dossiers</span>
+                    </a>
+                    <a href="#">
+                        <i class="fa-solid fa-file-circle-plus"></i>
+                        <span>Ajouter un fichier</span>
+                    </a>
                 </div>
+            </div>
         {% else %}
+            <div>Pas de clients</div>
         {% endfor %}
     </div>
 {% endblock %}

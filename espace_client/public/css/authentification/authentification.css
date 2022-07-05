@@ -1,3 +1,7 @@
+#main_body {
+    background-color: white !important;
+}
+
 .form-padding{
     padding: 5rem;
 }
