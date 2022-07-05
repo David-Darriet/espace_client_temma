@@ -53,6 +53,7 @@ class AppFixtures extends Fixture
                     ->setPath($filePath)
                     ->setFormat("pdf")
                     ->setUser($user)
+                    ->setName($filePath)
                     ->setCreatedAt(new DateTimeImmutable('2022-01-01'));
                 $manager->persist($file);
             }
