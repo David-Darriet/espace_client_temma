@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\File;
 use App\Entity\User;
+use App\Form\FileType;
 use App\Form\UserType;
 use App\Repository\CategoryRepository;
 use App\Repository\FileRepository;
@@ -18,6 +20,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Routing\RouterInterface;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
@@ -107,6 +110,57 @@ class AdminController extends AbstractController
             'user' => $userRepository->findOneByLogin($user_login),
             'category' => $categoryRepository->findOneByLabel($category_label),
             'files' => $fileRepository->findByUserAndCategory($user_login, $category_label),
+        ]);
+    }
+
+    #[Route('/{user_login}/{category_label}/file/new', name: 'app_admin_file_new', methods: ['GET', 'POST'])]
+    public function addFileUserCategory(Request $request, FileRepository $fileRepository,
+                                        string $user_login, string $category_label,
+                                        UserRepository $userRepository, CategoryRepository $categoryRepository): Response
+    {
+        $file = new File();
+        $categories = $categoryRepository->findAll();
+        $form = $this->createForm(FileType::class, $file, array(
+            'categories' => $categories
+        ));
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $documentFile = $form['document']->getData();
+            $category_name = $_POST['file']['category'];
+            $uploadDirectory = '../src/Document/'.$user_login."/".$category_name;
+            if (file_exists($uploadDirectory."/".$documentFile->getClientOriginalName())){
+                $compteur = 1;
+                $passage = false;
+                while ($passage == false){
+                    if (!file_exists($uploadDirectory."/".pathinfo($documentFile->getClientOriginalName(), PATHINFO_FILENAME)."(".$compteur.").".pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION))){
+                        $passage = true;
+                        $file->setName(pathinfo($documentFile->getClientOriginalName(), PATHINFO_FILENAME)."(".$compteur.").".pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION));
+                        $file->setPath($uploadDirectory."/".pathinfo($documentFile->getClientOriginalName(), PATHINFO_FILENAME)."(".$compteur.").".pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION));
+                        $documentFile->move($uploadDirectory, pathinfo($documentFile->getClientOriginalName(), PATHINFO_FILENAME)."(".$compteur.").".pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION));
+                    }
+                    $compteur ++;
+                }
+            }else{
+                $file->setName($documentFile->getClientOriginalName());
+                $file->setPath($uploadDirectory."/".$documentFile->getClientOriginalName());
+                $documentFile->move($uploadDirectory, $documentFile->getClientOriginalName());
+
+            }
+            $file->setUser($userRepository->findOneByLogin($user_login));
+            $file->setCreatedAt(new \DateTimeImmutable());
+            $file->setFormat(pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION));;
+            $category = $categoryRepository->findOneByLabel($category_name);
+            $file->setCategory($category);
+            $fileRepository->add($file, true);
+
+            return $this->redirectToRoute('app_admin_file_index', ['user_login'=> $user_login, 'category_label'=>$category_label], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('file/new.html.twig', [
+            'user' => $userRepository->findOneByLogin($user_login),
+            'category' => $categoryRepository->findOneByLabel($category_label),
+            'file' => $file,
+            'form' => $form,
         ]);
     }
 }

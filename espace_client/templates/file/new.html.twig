@@ -7,5 +7,5 @@
 
     {{ include('file/_form.html.twig') }}
 
-    <a href="{{ path('app_file_index') }}">back to list</a>
+    <a href="{{ path('app_admin_file_index',  {'user_login': user.login, 'category_label': category.label }) }}">Liste des fichiers</a>
 {% endblock %}

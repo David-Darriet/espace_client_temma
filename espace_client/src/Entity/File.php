@@ -28,6 +28,9 @@ class File
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'files')]
     private $category;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private $name;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +92,18 @@ class File
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }
