@@ -27,7 +27,7 @@
             <h1>Zone d'archivage de l'entreprise {{ user.enterprise }} </h1>
             <div>
                 <a href="{{ path("app_user_category_index") }}">Accueil</a> /
-                <a href="{{ path('app_admin_file_index', {'user_login': user.login, 'category_label': category.label}) }}">{{ category.label }}
+                <a href="{{ path('app_category_show', {'category_label': category.label}) }}">{{ category.label }}
                 </a>
             </div>
         </div>
