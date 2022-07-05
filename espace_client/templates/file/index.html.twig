@@ -60,5 +60,5 @@
         {% endfor %}
     </div>
 
-    <a href="{{ path('app_admin_file_new',  {'user_login': user.login, 'category_label': category.label } ) }}">Ajouter un fichier</a>
+    <a href="{{ path('app_admin_file_new',  {'user_login': user.login } ) }}">Ajouter un fichier</a>
 {% endblock %}

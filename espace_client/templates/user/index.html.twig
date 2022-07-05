@@ -42,11 +42,11 @@
                 <div class="divTableCell padding-right-after-cut-word cut-txt-overflow">{{ user.enterprise }}</div>
                 <div class="divTableCell responsive-user">{{ user.email }}</div>
                 <div class="divTableCell action_user actions">
-                    <a href="{{ path('app_user_show', {'id': user.id })}}">
+                    <a href="{{ path('app_user_show', {'id': user.id }) }}">
                         <i class="fa-solid fa-eye"></i>
                         <span>Voir les détails</span>
                     </a>
-                    <a href="{{ path('app_user_edit', {'id': user.id })}}">
+                    <a href="{{ path('app_user_edit', {'id': user.id }) }}">
                         <i class="fa-solid fa-user-pen"></i>
                         <span>Editer le client</span>
                     </a>
@@ -55,7 +55,7 @@
                         <i class="fa-solid fa-folder-open"></i>
                         <span>Accéder aux dossiers</span>
                     </a>
-                    <a href="#">
+                    <a href="{{ path('app_admin_file_new', {'user_login' : user.login}) }}">
                         <i class="fa-solid fa-file-circle-plus"></i>
                         <span>Ajouter un fichier</span>
                     </a>

@@ -113,9 +113,9 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/{user_login}/{category_label}/file/new', name: 'app_admin_file_new', methods: ['GET', 'POST'])]
+    #[Route('/{user_login}/file/new', name: 'app_admin_file_new', methods: ['GET', 'POST'])]
     public function addFileUserCategory(Request $request, FileRepository $fileRepository,
-                                        string $user_login, string $category_label,
+                                        string $user_login,
                                         UserRepository $userRepository, CategoryRepository $categoryRepository): Response
     {
         $file = new File();
@@ -153,12 +153,11 @@ class AdminController extends AbstractController
             $file->setCategory($category);
             $fileRepository->add($file, true);
 
-            return $this->redirectToRoute('app_admin_file_index', ['user_login'=> $user_login, 'category_label'=>$category_label], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_admin_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('file/new.html.twig', [
             'user' => $userRepository->findOneByLogin($user_login),
-            'category' => $categoryRepository->findOneByLabel($category_label),
             'file' => $file,
             'form' => $form,
         ]);

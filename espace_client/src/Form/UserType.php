@@ -52,9 +52,6 @@ class UserType extends AbstractType
                 ],
                 'attr'=>['class'=>'choice-field']
             ])
-            ->add('file', FileType::class, [
-                "mapped" => false
-            ])
         ;
     }
 
