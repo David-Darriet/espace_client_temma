@@ -81,4 +81,19 @@ class FileRepository extends ServiceEntityRepository
             ->getArrayResult()
             ;
     }
+
+    public function findFileUser($id){
+        return $this->createQueryBuilder('f')
+            ->innerJoin(
+                User::class,
+                'u',
+                Join::WITH,
+                'u.id = f.user'
+            )
+            ->andWhere('u.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getArrayResult()
+            ;
+    }
 }
