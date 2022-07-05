@@ -70,7 +70,7 @@ class AppFixtures extends Fixture
             ->setLogin("admin")
             ->setEnterprise("Temma")
             ->setIsAdmin(true)
-            ->setRoles(['ROLE_USER', 'ROLE_ADMIN']);
+            ->setRoles(['ROLE_ADMIN']);
         $manager->persist($admin);
 
         $userWithoutFile = new User;
