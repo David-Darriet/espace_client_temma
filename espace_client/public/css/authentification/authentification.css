@@ -1,5 +1,17 @@
-form{
+.form-padding{
     padding: 5rem;
+}
+
+.padding-bottom-reinit-mdp > div >label{
+    padding-right: 1rem;
+}
+
+.padding-bottom-reinit-mdp > div{
+    padding-bottom: 1rem;
+}
+
+.padding-auth {
+    padding-right: 1rem;
 }
 
 .container-auth {
@@ -51,5 +63,26 @@ form{
 @media only screen and (max-width: 400px) {
     .input, .btn-auth {
         width: 250px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .input-long {
+        margin-top: 0.4rem;
+        width: 100%;
+        min-width: 30%;
+        height: 2.5rem;
+        border-radius: 0.4em;
+        border: solid 1px #A62A3D;
+    }
+
+    .container-auth-inside-input {
+        margin: 1rem;
+        border: solid 1px #A62A3D;
+        border-radius: 1em;
+        padding: 2em;
+        gap: 1rem;
+        display: flex;
+        flex-direction: column;
     }
 }

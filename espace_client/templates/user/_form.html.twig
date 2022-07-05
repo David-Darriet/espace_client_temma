@@ -2,15 +2,19 @@
 <div class="container-user-inside-input margin-left-2-rem">
     <div class="flex-row space-between">
         <div class="flex-column ">
-            {{ form_label(form.enterprise) }}
+            <div>
+                {{ form_label(form.enterprise) }}
+                <span class="color-red bold"> *</span>
+            </div>
             {{ form_widget(form.enterprise) }}
             {{ form_errors(form.enterprise, {'attr': {'class': 'color-red'}}) }}
         </div>
         <div class="flex-column">
             <div>
                 {{ form_label(form.email) }}
+                <span class="color-red bold"> *</span>
                 <abbr title="Lors de la création d'un utilisateur, un mail lui est envoyé avec ses identifiants.">
-                    <i class="fa-solid fa-circle-info color-blue"></i>
+                    <i class="fa-solid fa-circle-info color-blue font-medium"></i>
                 </abbr>
             </div>
             {{ form_widget(form.email) }}
@@ -38,7 +42,9 @@
         {{ form_label(form.isAdmin) }}
         {{ form_widget(form.isAdmin) }}
     </div>
-
+    <div class="color-red bold">
+        Merci de remplir les champs obligatoires comportant une astérisque ( * ).
+    </div>
 
     <button class="btn">{{ button_label|default('Créer l\'utilisateur') }}</button>
 </div>

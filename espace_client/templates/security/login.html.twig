@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block body %}
-    <form method="post">
+    <form method="post" class="form-padding">
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
@@ -30,7 +30,7 @@
                     <label for="inputPassword">Mot de passe</label>
                     <input type="password" name="password" id="inputPassword" class="form-control input"
                            autocomplete="current-password" required>
-                    <a href="#">Mot de passe oublié ?</a>
+                    <a href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a>
                 </div>
                 <input type="hidden" name="_csrf_token"
                        value="{{ csrf_token('authenticate') }}"

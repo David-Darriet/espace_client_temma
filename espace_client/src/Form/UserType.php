@@ -17,7 +17,7 @@ class UserType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-                'label' => 'Adresse mail *',
+                'label' => 'Adresse mail',
                 'attr'=>['class'=>'input']
             ])
             ->add('firstname', TextType::class, [
@@ -37,9 +37,9 @@ class UserType extends AbstractType
                 ]
             )
             ->add('enterprise', TextType::class, [
-                'label' => 'Nom de l\'entreprise *',
+                'label' => 'Nom de l\'entreprise',
                 'required'=>true,
-                'attr'=>['class'=>'input-long']
+                'attr'=>['class'=>'input-semi-long']
             ])
             ->add('civility', ChoiceType::class, [
                 'label' => 'Civilité',

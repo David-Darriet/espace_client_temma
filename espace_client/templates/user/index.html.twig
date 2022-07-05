@@ -8,6 +8,13 @@
 {% endblock %}
 
 {% block body %}
+    {% for label,messages in app.flashes(['success']) %}
+        {% for message in messages %}
+            <div class="flash flash-{{ label }}" id="flash">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
     <h1>Liste des utilisateurs</h1>
     <hr>
     <button class="btn-user-add">
@@ -16,7 +23,6 @@
             Nouvel utilisateur
         </a>
     </button>
-
     <div class="divTable">
         <div class="divTableRow bold">
             <div class="divTableCell">Entreprise</div>
@@ -36,4 +42,11 @@
         {% else %}
         {% endfor %}
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/alert.js') }}"></script>
+    <script type="text/javascript">
+        timeOut('flash', 800);
+    </script>
 {% endblock %}

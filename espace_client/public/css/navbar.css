@@ -48,7 +48,8 @@ i {
     display: none;
 }
 
-.navbar-submenu-parent:hover .navbar-submenu {
+.navbar-submenu-parent:hover>ul {
+    display: block;
     box-sizing: border-box;
     box-shadow: 0 4px 4px #A62A3D;
     list-style: none;
@@ -58,8 +59,6 @@ i {
     /*top: 165%;*/
     background-color: white;
     border: 1px solid #A62A3D;
-    display: flex;
-    flex-direction: column;
     padding: 0.4rem;
     color: black;
 }

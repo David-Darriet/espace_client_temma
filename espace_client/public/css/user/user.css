@@ -105,16 +105,24 @@
     }
 
     .input {
-        width: 58vw;
-        min-width: 30%;
+        width: 100%;
+        min-width: 150px;
+        height: 2.5rem;
+        border-radius: 0.4em;
+        border: solid 1px #A62A3D;
+    }
+
+    .input-semi-long {
+        width:100%;
+        min-width: 150px;
         height: 2.5rem;
         border-radius: 0.4em;
         border: solid 1px #A62A3D;
     }
 
     .input-long {
-        width: 58vw;
-        min-width: 30%;
+        width: 100%;
+        min-width: 150px;
         height: 2.5rem;
         border-radius: 0.4em;
         border: solid 1px #A62A3D;
