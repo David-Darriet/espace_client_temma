@@ -20,7 +20,7 @@
         <h1>Liste des clients</h1>
     </div>
     <button class="btn-user-add no-print">
-        <a href="{{ path('app_user_new') }}">
+        <a href="{{ path('app_admin_import_user') }}">
             <i class="fa-solid fa-file-import"></i>
             Importer des clients à partir d'un csv
         </a>
@@ -58,6 +58,10 @@
                     <a href="{{ path('app_admin_file_new', {'user_login' : user.login}) }}">
                         <i class="fa-solid fa-file-circle-plus"></i>
                         <span>Ajouter un fichier</span>
+                    </a>
+                    <a href="">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>Envoyer les identifiants</span>
                     </a>
                 </div>
             </div>

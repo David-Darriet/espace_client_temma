@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Importer des clients{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/add_file.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% endblock %}
+
+{% block body %}
+    <div class="page_header">
+        <h1>Importer des clients</h1>
+    </div>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    <button class="btn">{{ button_label|default('Importer') }}</button>
+
+    {{ form_end(form) }}
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/alert.js') }}"></script>
+    <script type="text/javascript">
+        timeOut('flash', 800);
+    </script>
+{% endblock %}
