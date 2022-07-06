@@ -27,8 +27,10 @@
     {% endif %}
     {% if app.user.roles[0] is same as('ROLE_USER') %}
         <div class="page_header no-print">
-            <h1>Zone d'archivage de l'entreprise {{ user.enterprise }} </h1>
+
             <div>
+                <h1>Zone d'archivage de l'entreprise {{ user.enterprise }} </h1>
+
                 <a href="{{ path("app_user_category_index") }}">Accueil</a>
             </div>
         </div>
