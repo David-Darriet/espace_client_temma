@@ -21,6 +21,9 @@ class Category
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: File::class)]
     private $files;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $icon;
+
     public function __construct()
     {
         $this->files = new ArrayCollection();
@@ -69,6 +72,18 @@ class Category
                 $file->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIcon(): ?string
+    {
+        return $this->icon;
+    }
+
+    public function setIcon(?string $icon): self
+    {
+        $this->icon = $icon;
 
         return $this;
     }

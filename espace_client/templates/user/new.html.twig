@@ -4,6 +4,7 @@
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/user/user.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/user/form_user.css') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 {% endblock %}
 
@@ -12,6 +13,8 @@
     {{ include('user/_form.html.twig') }}
 
     <div class="margin-left-2-rem margin-top-2-rem no-print">
-        <a href="{{ path('app_admin_index') }}">Retour à la liste des utilisateurs</a>
+        <a href="{{ path('app_admin_index') }}">
+            <i class="fa-solid fa-arrow-left"></i><span>Retour</span>
+        </a>
     </div>
 {% endblock %}

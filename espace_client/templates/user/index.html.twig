@@ -46,7 +46,7 @@
                         <i class="fa-solid fa-eye"></i>
                         <span>Voir les détails</span>
                     </a>
-                    <a href="{{ path('app_user_edit', {'id': user.id }) }}">
+                    <a href="{{ path('app_user_edit', {'id': user.id }) }}" class="responsive-user">
                         <i class="fa-solid fa-user-pen"></i>
                         <span>Editer le client</span>
                     </a>
@@ -62,7 +62,7 @@
                 </div>
             </div>
         {% else %}
-            <div>Pas de clients</div>
+            <div class="margin-left-2-rem">Pas de clients.</div>
         {% endfor %}
     </div>
 {% endblock %}

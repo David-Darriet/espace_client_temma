@@ -1,56 +1,60 @@
 {{ form_start(form) }}
-<div class="container-user-inside-input margin-left-2-rem">
-    <div class="flex-row space-between">
-        <div class="flex-column ">
+<div>
+    <div class="info_client">
+        <div>
             <div>
-                {{ form_label(form.enterprise) }}
-                <span class="color-red bold"> *</span>
+                <div class="label_form">
+                    <i class="fa-solid fa-briefcase"></i>
+                    {{ form_label(form.enterprise) }}
+                    <span class="color-red bold"> *</span>
+                </div>
+                {{ form_widget(form.enterprise) }}
+                {{ form_errors(form.enterprise, {'attr': {'class': 'color-red'}}) }}
             </div>
-            {{ form_widget(form.enterprise) }}
-            {{ form_errors(form.enterprise, {'attr': {'class': 'color-red'}}) }}
+            <div>
+                <div class="label_form">
+                    <i class="fa-solid fa-envelope"></i>
+                    {{ form_label(form.email) }}
+                    <span class="color-red bold"> *</span>
+                    <abbr title="Lors de la création d'un utilisateur, un mail lui est envoyé avec ses identifiants.">
+                        <i class="fa-solid fa-circle-info color-blue font-medium"></i>
+                    </abbr>
+                </div>
+                {{ form_widget(form.email) }}
+                {{ form_errors(form.email) }}
+            </div>
+            {% if app.user.roles[0] is same as('ROLE_ADMIN') %}
+            <div class="is_admin">{% else %}
+                <div style="display:none">{% endif %}
+                    {{ form_label(form.isAdmin) }}
+                    {{ form_widget(form.isAdmin) }}
+                </div>
         </div>
-        <div class="flex-column">
-            <div>
-                {{ form_label(form.email) }}
-                <span class="color-red bold"> *</span>
-                <abbr title="Lors de la création d'un utilisateur, un mail lui est envoyé avec ses identifiants.">
-                    <i class="fa-solid fa-circle-info color-blue font-medium"></i>
-                </abbr>
+        <div>
+            <p class="label_form"><i class="fa-solid fa-building-user"></i>Contact de l'entreprise :</p>
+            <div class="infos_contact">
+                {{ form_label(form.civility) }}
+                {{ form_widget(form.civility) }}
+                {{ form_errors(form.civility) }}
             </div>
-            {{ form_widget(form.email) }}
-            {{ form_errors(form.email) }}
+            <div class="infos_contact">
+                {{ form_label(form.firstname) }}
+                {{ form_widget(form.firstname) }}
+                {{ form_errors(form.firstname) }}
+            </div>
+            <div class="infos_contact">
+                {{ form_label(form.lastname) }}
+                {{ form_widget(form.lastname) }}
+                {{ form_errors(form.lastname) }}
+            </div>
         </div>
     </div>
-    <div class="flex-row space-between">
-        <div class="flex-column">
-            {{ form_label(form.civility) }}
-            {{ form_widget(form.civility) }}
-            {{ form_errors(form.civility) }}
-        </div>
-        <div class="flex-column">
-            {{ form_label(form.firstname) }}
-            {{ form_widget(form.firstname) }}
-            {{ form_errors(form.firstname) }}
-        </div>
-        <div class="flex-column">
-            {{ form_label(form.lastname) }}
-            {{ form_widget(form.lastname) }}
-            {{ form_errors(form.lastname) }}
-        </div>
-    </div>
-    {% if app.user.roles[0] is same as('ROLE_ADMIN') %}
-    <div>
-        {% else %}
-        <div style="display:none">
-            {% endif %}
-
-            {{ form_label(form.isAdmin) }}
-            {{ form_widget(form.isAdmin) }}
-        </div>
+    <div class="action_form_user">
         <div class="color-red bold">
             Merci de remplir les champs obligatoires comportant une astérisque ( * ).
         </div>
 
         <button class="btn">{{ button_label|default('Créer l\'utilisateur') }}</button>
     </div>
-    {{ form_end(form) }}
+</div>
+{{ form_end(form) }}

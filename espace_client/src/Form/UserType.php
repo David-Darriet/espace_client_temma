@@ -20,7 +20,7 @@ class UserType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'label' => 'Adresse mail',
-                'attr'=>['class'=>'input']
+                'attr'=>['class'=>'input-semi-long']
             ])
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom',

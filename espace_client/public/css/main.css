@@ -9,6 +9,7 @@ body {
 .color-red {
     color: #A62A3D;
 }
+
 .color-white {
     color: white;
 }
@@ -36,6 +37,10 @@ hr {
     color: #D9D9D9;
 }
 
+button {
+    cursor: pointer;
+}
+
 /* coupe le mot et ajoute "..." à la fin */
 .cut-txt-overflow {
     text-overflow: ellipsis;
@@ -46,6 +51,7 @@ hr {
 .padding-1rem {
     padding: 1rem;
 }
+
 .margin-top-2-rem {
     margin-top: 2rem;
 }
@@ -140,7 +146,7 @@ hr {
     color: #f5c2c7;
 }
 
-.not-btn{
+.not-btn {
     background-color: transparent;
     border: none;
 }

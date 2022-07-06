@@ -33,11 +33,6 @@
     background-color: white;
 }
 
-.divTableRow:not(:first-child):hover{
-    background: #A62A3D;
-    cursor: pointer;
-    color: white
-}
 
 .divTableCell {
     flex: 3;
@@ -78,21 +73,14 @@
 .divTableRow:not(:first-child):hover .file_action span,
 .divTableRow:not(:first-child):hover .file_action a
 {
-    color: white;
     cursor: pointer;
 }
 
-.divTableRow:not(:first-child):hover .file_action span{
+.divTableRow:not(:first-child) a:hover span,
+.divTableRow:not(:first-child) button:hover span{
     text-decoration: none;
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid black;
 }
-
-.divTableRow:not(:first-child):hover a:hover span,
-.divTableRow:not(:first-child):hover button:hover span{
-    text-decoration: none;
-    border-bottom: 1px solid white;
-}
-
 /*  --- Fin liste file --- */
 
 
@@ -100,7 +88,7 @@
 /* --- Version téléphone --- */
 @media only screen and (max-width: 767px) {
     .responsive-user {
-        display: none;
+        display: none !important;
     }
 
     .flex-row {

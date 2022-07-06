@@ -1,0 +1,48 @@
+.table {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.table div {
+    flex: 3;
+    margin-left: 3rem;
+}
+
+strong, p, a, .btn {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    color: black;
+    flex-wrap: wrap;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover span, .btn:hover span {
+    border-bottom: 1px solid black;
+}
+
+form {
+    margin: 0;
+}
+
+.btn {
+    color: black;
+    font-size: 16px;
+    font-family: 'Quicksand', serif;
+}
+
+.actions {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    margin: 2% 0 2% 0;
+    flex-wrap: wrap;
+    padding-left: 3rem;
+}

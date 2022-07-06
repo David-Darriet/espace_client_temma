@@ -8,16 +8,24 @@
 {% block body %}
     {% if app.user.roles[0] is same as('ROLE_ADMIN') %}
         <div class="page_header no-print">
-            <h1>Zone d'archivage de l'entreprise {{ user.enterprise }} </h1>
             <div>
-                <a href="{{ path("app_admin_index") }}">Accueil</a>
-                <span>/</span>
-                <a
-                        href="{{ path('app_admin_category_index', {'user_login': user.login}) }}"> Dossier
-                    de {{ user.enterprise }}</a>
-                <span>/</span>
-                <a
-                        href="{{ path('app_admin_file_index', {'user_login': user.login, 'category_label': category.label}) }}">{{ category.label }}
+                <h1>Zone d'archivage de l'entreprise {{ user.enterprise }} </h1>
+                <div>
+                    <a href="{{ path("app_admin_index") }}">Accueil</a>
+                    <span>/</span>
+                    <a
+                            href="{{ path('app_admin_category_index', {'user_login': user.login}) }}"> Dossier
+                        de {{ user.enterprise }}</a>
+                    <span>/</span>
+                    <a
+                            href="{{ path('app_admin_file_index', {'user_login': user.login, 'category_label': category.label}) }}">{{ category.label }}
+                    </a>
+                </div>
+            </div>
+            <div class="add_file">
+                <a href="{{ path('app_admin_file_new', {'user_login' : user.login}) }}">
+                    <i class="fa-solid fa-file-circle-plus"></i>
+                    <span>Ajouter un fichier</span>
                 </a>
             </div>
         </div>
@@ -43,7 +51,7 @@
         {% for file in files %}
             <div class="divTableRow"
                  onclick="location.href='{{ path('app_admin_category_index', {'user_login': user.login}) }}';">
-                <div class="divTableCell namefile content padding-right-after-cut-word cut-txt-overflow">{{ file.path }}</div>
+                <div class="divTableCell namefile content padding-right-after-cut-word cut-txt-overflow">{{ file.name }}</div>
                 <div class="divTableCell content responsive-user">{{ file.format }}</div>
                 <div class="divTableCell content padding-right-after-cut-word cut-txt-overflow responsive-user">{{ file.created_at ? file.created_at|date('d-m-Y') : '' }}</div>
                 <div class="divTableCell content padding-right-after-cut-word cut-txt-overflow responsive-user no-print">
@@ -56,9 +64,8 @@
                 </div>
             </div>
         {% else %}
-            <div>Pas de fichier.</div>
+            <div class="margin-left-2-rem">Pas de fichier.</div>
         {% endfor %}
     </div>
 
-    <a href="{{ path('app_admin_file_new',  {'user_login': user.login } ) }}">Ajouter un fichier</a>
 {% endblock %}

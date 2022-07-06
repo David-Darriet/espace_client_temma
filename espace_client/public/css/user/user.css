@@ -19,7 +19,7 @@
 /*  --- a href ---  */
 .btn-user-add > a {
     color: white;
-    text-decoration:none;
+    text-decoration: none;
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -52,13 +52,14 @@
     color: white;
 }
 
-.divTableRow:not(:first-child):hover{
+.divTableRow:not(:first-child):hover {
     background: #57000D;
 }
 
 .divTableCell:not(:last-child) {
     flex: 2;
 }
+
 .divTableCell:last-child {
     flex: 5;
 }
@@ -76,6 +77,7 @@
     padding-top: 0.7rem;
     padding-bottom: 0.7rem;
 }
+
 /*  --- Fin liste user --- */
 
 .container-user-inside-input {
@@ -92,12 +94,13 @@
     align-self: center;
 }
 
-.action_user{
+.action_user {
     display: flex;
     flex-direction: row;
     gap: 1rem;
 }
-.action_user a, .action_user button{
+
+.action_user a, .action_user button {
     color: white;
     text-decoration: none;
     display: flex;
@@ -108,29 +111,30 @@
     width: 100%;
 }
 
-.action_user a span, .action_user button span{
+.action_user a span, .action_user button span {
     font-size: 12px;
     font-family: 'Quicksand', serif;
 }
 
-.action_user a:hover span, form button:hover span{
+.action_user a:hover span, form button:hover span {
     border-bottom: 1px solid white;
 }
 
-form{
+form {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 80%;
 }
-form button{
+
+form button {
     width: 100%;
 }
+
 /* --- MEDIA QUERRIES --- */
 /* --- Version téléphone --- */
 @media only screen and (max-width: 767px) {
     .responsive-user {
-        display: none;
+        display: none !important;
     }
 
     .flex-row {
@@ -146,7 +150,7 @@ form button{
     }
 
     .input-semi-long {
-        width:100%;
+        width: 100%;
         min-width: 150px;
         height: 2.5rem;
         border-radius: 0.4em;
@@ -172,4 +176,5 @@ form button{
         font-size: larger;
     }
 }
+
 /* --- FIN MEDIA QUERRIES --- */

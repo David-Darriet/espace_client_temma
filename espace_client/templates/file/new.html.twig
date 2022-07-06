@@ -2,10 +2,17 @@
 
 {% block title %}Ajout d'un fichier{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/add_file.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% endblock %}
+
 {% block body %}
     <h1>Ajout d'un fichier</h1>
 
     {{ include('file/_form.html.twig') }}
 
-    <a href="{{ path('app_admin_index') }}">Retour</a>
+    <a href="{{ path('app_admin_index') }}" class="no-print">
+        <i class="fa-solid fa-arrow-left"></i><span>Retour</span>
+    </a>
 {% endblock %}
