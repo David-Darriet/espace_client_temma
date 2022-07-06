@@ -1,6 +1,6 @@
 function timeOut(elementToSelect, time) {
-    var flashMsg = document.getElementById(elementToSelect);
-    if (flashMsg != null) {
+    var flashMsg = document.getElementsByClassName(elementToSelect);
+    if (flashMsg) {
         setTimeout(function () {
                 flashMsg.style.transition = "opacity " + 3 + "s";
                 flashMsg.style.opacity = 0;

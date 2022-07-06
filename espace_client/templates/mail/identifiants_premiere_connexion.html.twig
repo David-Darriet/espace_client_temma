@@ -1,12 +1,16 @@
-<h1>Bonjour</h1>
+{% block title %}Bonjour{% endblock %}
 
-<p>
-    Un compte a récemment été créé au nom de votre entreprise.<br>
-    Votre identifiant est le suivant : {{ user.login }}<br>
-    Pour accéder à votre compte, merci de cliquer sur le lien suivant afin de choisir votre mot de passe :
-    <a href="{{ url('app_reset_password', {token: resetToken.token}) }}">{{ url('app_reset_password', {token: resetToken.token}) }}</a>
-</p>
-
-<p>
-    A bientôt sur votre espace client de partage de fichiers.
-</p>
+{% block body %}
+    <br>
+    <br>
+    <p>
+        Un compte a récemment été créé au nom de votre entreprise.<br>
+        Votre identifiant est le suivant : {{ user.login }}<br>
+        Pour accéder à votre compte, merci de cliquer sur le lien suivant afin de choisir votre mot de passe :
+        <a href="{{ url('app_reset_password', {token: resetToken.token}) }}">{{ url('app_reset_password', {token: resetToken.token}) }}</a>
+    </p>
+    <br>
+    <p>
+        A bientôt sur votre espace client de partage de fichiers.
+    </p>
+{% endblock %}

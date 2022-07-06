@@ -8,6 +8,13 @@
 {% endblock %}
 
 {% block body %}
+    {% for label,messages in app.flashes(['error']) %}
+        {% for message in messages %}
+            <div class="flash flash-{{ label }}" id="flash">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
     <h1>Ajout d'un fichier</h1>
 
     {{ include('file/_form.html.twig') }}

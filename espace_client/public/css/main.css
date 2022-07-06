@@ -141,9 +141,9 @@ button {
 }
 
 .flash-error {
-    background: #842029;
-    border: solid 1px #f8d7da;
-    color: #f5c2c7;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #842029;
 }
 
 .not-btn {

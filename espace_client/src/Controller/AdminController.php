@@ -39,7 +39,7 @@ class AdminController extends AbstractController
     public function indexCategory(CategoryRepository $categoryRepository, UserRepository $userRepository, string $user_login): Response
     {
         return $this->render('category/index.html.twig', [
-            'user'=> $userRepository->findOneByLogin($user_login),
+            'user' => $userRepository->findOneByLogin($user_login),
             'categories' => $categoryRepository->findBy(array(), array('label' => 'ASC')),
         ]);
     }
@@ -69,11 +69,11 @@ class AdminController extends AbstractController
                 $this->sendMailLogin($mailer, $resetPasswordHelper, $user);
                 $this->addFlash('success', 'Utilisateur créé et l\'email contenant les identifiants de 
                 première connexion du nouvel utilisateur vient d\'être envoyé à l\'adresse mail renseignée.');
+            } catch (ORMException $ORMException) {
+                $this->addFlash('error', 'Utilisateur non créé.');
             } catch (\Exception $e) {
                 $this->addFlash('error', 'L\'email contenant les identifiants de 
                 première connexion du nouvel utilisateur n\'a pas pu être envoyé à l\'adresse mail renseignée');
-            } catch(ORMException $ORMException){
-                $this->addFlash('error', 'Utilisateur non créé.');
             }
 
             return $this->redirectToRoute('app_admin_index', [], Response::HTTP_SEE_OTHER);
@@ -114,46 +114,51 @@ class AdminController extends AbstractController
     }
 
     #[Route('/{user_login}/file/new', name: 'app_admin_file_new', methods: ['GET', 'POST'])]
-    public function addFileUserCategory(Request $request, FileRepository $fileRepository,
-                                        string $user_login,
-                                        UserRepository $userRepository, CategoryRepository $categoryRepository): Response
+    public function addFileUserCategory(Request        $request, FileRepository $fileRepository,
+                                        string         $user_login,
+                                        UserRepository $userRepository, CategoryRepository $categoryRepository, MailerInterface $mailer): Response
     {
         $file = new File();
         $categories = $categoryRepository->findAll();
         $form = $this->createForm(FileType::class, $file, array(
             'categories' => $categories
         ));
+        $user = $userRepository->findOneByLogin($user_login);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $documentFile = $form['document']->getData();
-            $category_name = $_POST['file']['category'];
-            $uploadDirectory = '../src/Document/'.$user_login."/".$category_name;
-            if (file_exists($uploadDirectory."/".$documentFile->getClientOriginalName())){
-                $compteur = 1;
-                $passage = false;
-                while ($passage == false){
-                    if (!file_exists($uploadDirectory."/".pathinfo($documentFile->getClientOriginalName(), PATHINFO_FILENAME)."(".$compteur.").".pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION))){
-                        $passage = true;
-                        $file->setName(pathinfo($documentFile->getClientOriginalName(), PATHINFO_FILENAME)."(".$compteur.").".pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION));
-                        $file->setPath($uploadDirectory."/".pathinfo($documentFile->getClientOriginalName(), PATHINFO_FILENAME)."(".$compteur.").".pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION));
-                        $documentFile->move($uploadDirectory, pathinfo($documentFile->getClientOriginalName(), PATHINFO_FILENAME)."(".$compteur.").".pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION));
+            try {
+                $documentFile = $form['document']->getData();
+                $category_name = $_POST['file']['category'];
+                $uploadDirectory = '../src/Document/' . $user_login . "/" . $category_name;
+                if (file_exists($uploadDirectory . "/" . $documentFile->getClientOriginalName())) {
+                    $compteur = 1;
+                    $passage = false;
+                    while ($passage == false) {
+                        if (!file_exists($uploadDirectory . "/" . pathinfo($documentFile->getClientOriginalName(), PATHINFO_FILENAME) . "(" . $compteur . ")." . pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION))) {
+                            $passage = true;
+                            $file->setName(pathinfo($documentFile->getClientOriginalName(), PATHINFO_FILENAME) . "(" . $compteur . ")." . pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION));
+                            $file->setPath($uploadDirectory . "/" . pathinfo($documentFile->getClientOriginalName(), PATHINFO_FILENAME) . "(" . $compteur . ")." . pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION));
+                            $documentFile->move($uploadDirectory, pathinfo($documentFile->getClientOriginalName(), PATHINFO_FILENAME) . "(" . $compteur . ")." . pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION));
+                        }
+                        $compteur++;
                     }
-                    $compteur ++;
+                } else {
+                    $file->setName($documentFile->getClientOriginalName());
+                    $file->setPath($uploadDirectory . "/" . $documentFile->getClientOriginalName());
+                    $documentFile->move($uploadDirectory, $documentFile->getClientOriginalName());
+
                 }
-            }else{
-                $file->setName($documentFile->getClientOriginalName());
-                $file->setPath($uploadDirectory."/".$documentFile->getClientOriginalName());
-                $documentFile->move($uploadDirectory, $documentFile->getClientOriginalName());
+                $file->setUser($userRepository->findOneByLogin($user_login));
+                $file->setCreatedAt(new \DateTimeImmutable());
+                $file->setFormat(pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION));;
+                $category = $categoryRepository->findOneByLabel($category_name);
+                $file->setCategory($category);
 
+                $this->addFile($fileRepository, $file, $user, $mailer);
+                return $this->redirectToRoute('app_admin_index', [], Response::HTTP_SEE_OTHER);
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Le fichier que vous venez de tenter d\'ajouter n\'est pas conforme. Les fichiers ne possédant pas de format ne sont pas acceptés. Les formats acceptés sont les formats pdf, xlsx et xls.');
             }
-            $file->setUser($userRepository->findOneByLogin($user_login));
-            $file->setCreatedAt(new \DateTimeImmutable());
-            $file->setFormat(pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION));;
-            $category = $categoryRepository->findOneByLabel($category_name);
-            $file->setCategory($category);
-            $fileRepository->add($file, true);
-
-            return $this->redirectToRoute('app_admin_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('file/new.html.twig', [
@@ -161,5 +166,41 @@ class AdminController extends AbstractController
             'file' => $file,
             'form' => $form,
         ]);
+    }
+
+    function addFile($fileRepository, $file, $user, $mailer)
+    {
+        try {
+            $fileRepository->add($file, true);
+            $this->addFlash('success', 'Le fichier ' . $file->getName() . ' a bien été ajouté dans la catégorie '
+                . $file->getCategory()->getLabel() . ', pour le client ' . $user->getEnterprise() . '.');
+            $this->sendMailAlertNewFile($user, $file, $mailer);
+        } catch (\Exception $e) {
+            $this->addFlash('error', 'Le fichier .' . $file->getName() . ' n\'a pas été ajouté pour le client ' . $user->getEnterprise() . '.');
+        }
+    }
+
+    function sendMailAlertNewFile($user, $file, $mailer)
+    {
+        try {
+            $email = (new TemplatedEmail())
+                ->from(new Address('espace.client.lpdawin@gmail.com', 'Espace Client'))
+                ->to($user->getEmail())
+                ->subject('Nouveau fichier disponible')
+                ->htmlTemplate('mail/alerte_nouveau_fichier_dispo.html.twig')
+                ->context([
+                        'user' => $user,
+                        'category_name' => $file->getCategory()->getLabel(),
+                        'file_name' => $file->getName(),
+                        'file_format' => $file->getFormat(),
+                    ]
+                );
+            $mailer->send($email);
+            $this->addFlash('success', 'Le mail notifiant le client qu\'un nouveau fichier 
+            est disponible dans son espace client vient d\'être envoyé.');
+        } catch (\Exception $e) {
+            $this->addFlash('error', 'Le mail notifiant le client qu\'un nouveau fichier 
+            est disponible dans son espace client n\'a pas pu être envoyé.');
+        }
     }
 }

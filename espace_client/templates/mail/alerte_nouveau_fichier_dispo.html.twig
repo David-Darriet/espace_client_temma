@@ -1,0 +1,30 @@
+{% block title %}Bonjour{% endblock %}
+
+{% block body %}
+    <br>
+    <br>
+    <p>
+        Un nouveau fichier a été ajouté sur votre espace client.<br>
+        {% if category_name is defined and file_name is defined and file_format is defined %}
+            Le fichier {{ file_format }} se trouve dans la catégorie {{ category_name }} et se nomme {{ file_name }}.
+            <br>
+        {% elseif category_name is defined and file_name is not defined and file_format is not defined %}
+            Le fichier se trouve dans la catégorie {{ category_name }}.<br>
+        {% elseif category_name is not defined and file_name is defined and file_format is not defined %}
+            Le fichier se nomme {{ file_name }}.<br>
+        {% elseif category_name is not defined and file_name is not defined and file_format is defined %}
+            Le fichier ajouté est un fichier au format {{ file_format }}.<br>
+
+        {% elseif category_name is defined and file_name is defined and file_format is not defined %}
+            Le fichier se trouve dans la catégorie {{ category_name }} et se nomme {{ file_name }}.<br>
+        {% elseif category_name is not defined and file_name is defined and file_format is defined %}
+            Le fichier {{ file_format }} se nomme {{ file_name }}.<br>
+        {% elseif category_name is defined and file_name is not defined and file_format is defined %}
+            Le fichier {{ file_format }} se trouve dans la catégorie {{ category_name }}.<br>
+        {% endif %}
+    </p>
+    <br>
+    <p>
+        A bientôt sur votre espace client de partage de fichiers.
+    </p>
+{% endblock %}
