@@ -46,7 +46,8 @@ class AdminController extends AbstractController
     public function new(Request $request, UserRepository $userRepository,
                         UserPasswordHasherInterface $userPasswordHasher,
                         ResetPasswordHelperInterface $resetPasswordHelper,
-                        MailerInterface $mailer, Session $session): Response
+                        MailerInterface $mailer,
+                        MailController $mailController): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -67,7 +68,6 @@ class AdminController extends AbstractController
 
             try {
                 $userRepository->add($user, true);
-                $this->sendMailLogin($mailer, $resetPasswordHelper, $user);
                 $this->addFlash('success', 'Utilisateur créé et l\'email contenant les identifiants de 
                 première connexion du nouvel utilisateur vient d\'être envoyé à l\'adresse mail renseignée.');
             } catch (ORMException $ORMException) {
@@ -86,23 +86,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    public function sendMailLogin(MailerInterface $mailer, $resetPasswordHelper, $user)
-    {
-        $resetToken = $resetPasswordHelper->generateResetToken($user);
-        $email = (new TemplatedEmail())
-            ->from(new Address('espace.client.lpdawin@gmail.com', 'Espace Client'))
-            ->to($user->getEmail())
-            ->subject('Identifiants personnels')
-            ->htmlTemplate('mail/identifiants_premiere_connexion.html.twig')
-            ->context([
-                    'user' => $user,
-                    'resetToken' => $resetToken,
-                ]
 
-            );
-        $mailer->send($email);
-        return $this->redirectToRoute('app_admin_index');
-    }
 
     #[Route('/{user_login}/{category_label}', name: 'app_admin_file_index', methods: ['GET'])]
     public function indexFileUserCategory(FileRepository $fileRepository, string $user_login, string $category_label, UserRepository $userRepository, CategoryRepository $categoryRepository): Response
@@ -245,11 +229,9 @@ class AdminController extends AbstractController
                         $user->setPassword($userPasswordHasher->hashPassword($user, $mdpRandom));
                         if($userRepository->findOneBy(['email'=> strval($array[$i][4])]) == null ){
                             $userRepository->add($user, true);
-                            $this->sendMailLogin($mailer, $resetPasswordHelper, $user);
                         }
                     }
-                    $this->addFlash('success', 'Utilisateur créé et l\'email contenant les identifiants de 
-                première connexion du nouvel utilisateur vient d\'être envoyé à l\'adresse mail renseignée.');
+                    $this->addFlash('success', 'Import réalisé avec succès.');
                 } catch (\Exception $e) {
                     $this->addFlash('error', 'L\'email contenant les identifiants de 
                 première connexion du nouvel utilisateur n\'a pas pu être envoyé à l\'adresse mail renseignée');
