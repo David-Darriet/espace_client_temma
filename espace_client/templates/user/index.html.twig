@@ -31,6 +31,16 @@
             Nouvel utilisateur
         </a>
     </button>
+
+    <form action="{{ path('app_admin_index') }}" class="search">
+        <label>
+            <input type="text" name="search" placeholder="Rechercher une entreprise" />
+        </label>
+        <button type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+    </form>
+
     <div class="divTable">
         <div class="divTableRow bold">
             <div class="divTableCell">Entreprise</div>

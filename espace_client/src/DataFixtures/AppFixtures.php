@@ -22,12 +22,16 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $categories = ['Factures', 'Devis', 'Maintenance', "Données machines", "Echanges"];
+        $categories_icon = ['fa-file-invoice-dollar', 'fa-file-lines', 'fa-screwdriver-wrench', "fa-database", "fa-headset"];
+        $nb = 0;
         foreach ($categories as $category) {
             $cat = new Category;
             $cat->setLabel($category);
+            $cat->setIcon($categories_icon[$nb]);
             $manager->persist($cat);
+            $nb++;
         }
-        $usernames = ['albert', 'bob', 'charles'];
+        $usernames = ['bob'];
         $users = [];
         foreach ($usernames as $username) {
             $user = new User;
@@ -44,19 +48,6 @@ class AppFixtures extends Fixture
                 ->setRoles(['ROLE_USER']);
             $manager->persist($user);
             $users[$username] = $user;
-
-            $files = ["assets/Test A.pdf", "assets/test_excel.xlsx"];
-
-            foreach ($files as $filePath) {
-                $file = new File;
-                $file
-                    ->setPath($filePath)
-                    ->setFormat("pdf")
-                    ->setUser($user)
-                    ->setName($filePath)
-                    ->setCreatedAt(new DateTimeImmutable('2022-01-01'));
-                $manager->persist($file);
-            }
         }
 
         $admin = new User;
@@ -72,20 +63,6 @@ class AppFixtures extends Fixture
             ->setIsAdmin(true)
             ->setRoles(['ROLE_ADMIN']);
         $manager->persist($admin);
-
-        $userWithoutFile = new User;
-        $userWithoutFile
-            ->setFirstname("Jean")
-            ->setLastname("Bon")
-            ->setEmail('jeanbon@test.fr')
-            ->setPassword($this->userPasswordHasher->hashPassword($userWithoutFile, 'password'))
-            ->setIsVerified(true)
-            ->setCivility("Monsieur")
-            ->setLogin("test-jb")
-            ->setEnterprise("EntrepriseTest")
-            ->setIsAdmin(false)
-            ->setRoles(['ROLE_USER']);
-        $manager->persist($userWithoutFile);
 
         $manager->flush();
     }
