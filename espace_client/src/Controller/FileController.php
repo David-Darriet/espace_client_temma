@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\File;
-use App\Form\FileType;
 use App\Repository\FileRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +23,8 @@ class FileController extends AbstractController
         if(file_exists($path)){
             unlink($path);
         }
+
+
 
         return $this->redirectToRoute('app_admin_file_index', ['user_login'=> $user_login,
             'category_label' => $category_label], Response::HTTP_SEE_OTHER);

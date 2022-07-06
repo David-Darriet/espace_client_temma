@@ -57,7 +57,8 @@
                 <div class="divTableCell content padding-right-after-cut-word cut-txt-overflow responsive-user">{{ file.created_at ? file.created_at|date('d-m-Y') : '' }}</div>
                 <div class="divTableCell content padding-right-after-cut-word cut-txt-overflow responsive-user no-print">
                     <div class="file_action">
-                        <a href="{{ file.path }}" target="_blank"><i class="fa fa-download"></i><span>Télécharger</span></a>
+                        <a href="{{ path('app_admin_file_download', {'id': file.id})}}">
+                            <i class="fa fa-download"></i><span>Télécharger</span></a>
                         {% if app.user.roles[0] is same as('ROLE_ADMIN') %}
                             {{ include('file/_delete_form.html.twig') }}
                         {% endif %}
