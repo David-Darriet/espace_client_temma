@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Form\ChangePasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,8 +36,8 @@ class ResetPasswordController extends AbstractController
     /**
      * Display & process form to request a password reset.
      */
-    #[Route('', name: 'app_forgot_password_request')]
-    public function request(Request $request, MailerInterface $mailer): Response
+    #[Route('/', name: 'app_forgot_password_request', methods: ["GET", "POST"])]
+    public function request(Request $request, MailerInterface $mailer, UserRepository $userRepository): Response
     {
         $form = $this->createForm(ResetPasswordRequestFormType::class);
         $form->handleRequest($request);
@@ -45,7 +45,8 @@ class ResetPasswordController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             return $this->processSendingPasswordResetEmail(
                 $form->get('email')->getData(),
-                $mailer
+                $mailer,
+                $userRepository
             );
         }
 
@@ -128,11 +129,11 @@ class ResetPasswordController extends AbstractController
         ]);
     }
 
-    private function processSendingPasswordResetEmail(string $emailFormData, MailerInterface $mailer): RedirectResponse
+    private function processSendingPasswordResetEmail(string          $emailFormData,
+                                                      MailerInterface $mailer,
+                                                      UserRepository  $userRepository): RedirectResponse
     {
-        $user = $this->entityManager->getRepository(User::class)->findOneBy([
-            'email' => $emailFormData,
-        ]);
+        $user = $userRepository->findOneBy(['email' => $emailFormData]);
 
         // Do not reveal whether a user account was found or not.
         if (!$user) {
@@ -162,8 +163,7 @@ class ResetPasswordController extends AbstractController
             ->htmlTemplate('reset_password/email.html.twig')
             ->context([
                 'resetToken' => $resetToken,
-            ])
-        ;
+            ]);
 
         $mailer->send($email);
 
