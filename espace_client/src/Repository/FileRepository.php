@@ -57,8 +57,8 @@ class FileRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-   public function findByUserAndCategory($user_login, $category_label): array|float|int|string
-   {
+    public function findByUserAndCategory($user_login, $category_label): array|float|int|string
+    {
         return $this->createQueryBuilder('f')
             ->innerJoin(
                 User::class,
@@ -78,11 +78,11 @@ class FileRepository extends ServiceEntityRepository
             ->setParameter('category_id', $category_label)
             ->orderBy('f.created_at', 'desc')
             ->getQuery()
-            ->getArrayResult()
-            ;
+            ->getArrayResult();
     }
 
-    public function findFileUser($id){
+    public function findFileUser($id): array|float|int|string
+    {
         return $this->createQueryBuilder('f')
             ->innerJoin(
                 User::class,
@@ -93,7 +93,6 @@ class FileRepository extends ServiceEntityRepository
             ->andWhere('u.id = :id')
             ->setParameter('id', $id)
             ->getQuery()
-            ->getArrayResult()
-            ;
+            ->getArrayResult();
     }
 }

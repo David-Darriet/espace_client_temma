@@ -29,8 +29,10 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if($user->getRoles() == ["ROLE_ADMIN"]){
+                $user->setIsAdmin(1);
+            }
             $userRepository->add($user, true);
-
             return $this->redirectToRoute('app_user_category_index', [], Response::HTTP_SEE_OTHER);
         }
 

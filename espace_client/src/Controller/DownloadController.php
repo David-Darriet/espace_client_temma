@@ -17,6 +17,5 @@ class DownloadController extends AbstractController
     {
         $path = str_ireplace("..", $this->getParameter('kernel.project_dir'), $fileRepository->findOneBy(['id' => $id])->getPath());
         return $this->file($path);
-
     }
 }

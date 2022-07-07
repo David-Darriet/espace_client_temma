@@ -22,7 +22,7 @@ class MailController extends AbstractController
             $user = $userRepository->findOneByLogin($user_login);
             $resetToken = $resetPasswordHelper->generateResetToken($user);
             $email = (new TemplatedEmail())
-                ->from(new Address('espace.client.lpdawin@gmail.com', 'Espace Client'))
+                ->from(new Address(strval($_ENV["EMAIL"]), strval($_ENV["NAME_EMAIL"])))
                 ->to($user->getEmail())
                 ->subject('Identifiants personnels')
                 ->htmlTemplate('mail/identifiants_premiere_connexion.html.twig')

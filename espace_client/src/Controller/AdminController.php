@@ -57,8 +57,8 @@ class AdminController extends AbstractController
     public function new(Request                      $request, UserRepository $userRepository,
                         UserPasswordHasherInterface  $userPasswordHasher,
                         ResetPasswordHelperInterface $resetPasswordHelper,
-                        MailerInterface $mailer,
-                        MailController $mailController): Response
+                        MailerInterface              $mailer,
+                        MailController               $mailController): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -98,7 +98,6 @@ class AdminController extends AbstractController
     }
 
 
-
     #[Route('/espace-client/{user_login}/{category_label}', name: 'app_admin_file_index', methods: ['GET'])]
     public function indexFileUserCategory(FileRepository $fileRepository, string $user_login, string $category_label, UserRepository $userRepository, CategoryRepository $categoryRepository): Response
     {
@@ -110,9 +109,12 @@ class AdminController extends AbstractController
     }
 
     #[Route('/espace-client/{user_login}/file/new', name: 'app_admin_file_new', methods: ['GET', 'POST'])]
-    public function addFileUserCategory(Request        $request, FileRepository $fileRepository,
-                                        string         $user_login,
-                                        UserRepository $userRepository, CategoryRepository $categoryRepository, MailerInterface $mailer): Response
+    public function addFileUserCategory(Request            $request,
+                                        FileRepository     $fileRepository,
+                                        string             $user_login,
+                                        UserRepository     $userRepository,
+                                        CategoryRepository $categoryRepository,
+                                        MailerInterface    $mailer): Response
     {
         $file = new File();
         $categories = $categoryRepository->findAll();
@@ -124,36 +126,44 @@ class AdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $documentFile = $form['document']->getData();
-                $category_name = $_POST['file']['category'];
-                $uploadDirectory = '../src/Document/' . $user_login . "/" . $category_name;
-                if (file_exists($uploadDirectory . "/" . $documentFile->getClientOriginalName())) {
-                    $compteur = 1;
-                    $passage = false;
-                    while ($passage == false) {
-                        if (!file_exists($uploadDirectory . "/" . pathinfo($documentFile->getClientOriginalName(), PATHINFO_FILENAME) . "(" . $compteur . ")." . pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION))) {
-                            $passage = true;
-                            $file->setName(pathinfo($documentFile->getClientOriginalName(), PATHINFO_FILENAME) . "(" . $compteur . ")." . pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION));
-                            $file->setPath($uploadDirectory . "/" . pathinfo($documentFile->getClientOriginalName(), PATHINFO_FILENAME) . "(" . $compteur . ")." . pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION));
-                            $documentFile->move($uploadDirectory, pathinfo($documentFile->getClientOriginalName(), PATHINFO_FILENAME) . "(" . $compteur . ")." . pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION));
+                if (pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION) === 'pdf'
+                    ||
+                    pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION) === 'xlsx'
+                    ||
+                    pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION) === 'xls') {
+                    $category_name = $_POST['file']['category'];
+                    $uploadDirectory = '../src/Document/' . $user_login . "/" . $category_name;
+                    if (file_exists($uploadDirectory . "/" . $documentFile->getClientOriginalName())) {
+                        $compteur = 1;
+                        $passage = false;
+                        while ($passage == false) {
+                            if (!file_exists($uploadDirectory . "/" . pathinfo($documentFile->getClientOriginalName(), PATHINFO_FILENAME) . "(" . $compteur . ")." . pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION))) {
+                                $passage = true;
+                                $file->setName(pathinfo($documentFile->getClientOriginalName(), PATHINFO_FILENAME) . "(" . $compteur . ")." . pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION));
+                                $file->setPath($uploadDirectory . "/" . pathinfo($documentFile->getClientOriginalName(), PATHINFO_FILENAME) . "(" . $compteur . ")." . pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION));
+                                $documentFile->move($uploadDirectory, pathinfo($documentFile->getClientOriginalName(), PATHINFO_FILENAME) . "(" . $compteur . ")." . pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION));
+                            }
+                            $compteur++;
                         }
-                        $compteur++;
+                    } else {
+                        $file->setName($documentFile->getClientOriginalName());
+                        $file->setPath($uploadDirectory . "/" . $documentFile->getClientOriginalName());
+                        $documentFile->move($uploadDirectory, $documentFile->getClientOriginalName());
+
                     }
+                    $file->setUser($userRepository->findOneByLogin($user_login));
+                    $file->setCreatedAt(new \DateTimeImmutable());
+                    $file->setFormat(pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION));;
+                    $category = $categoryRepository->findOneByLabel($category_name);
+                    $file->setCategory($category);
+
+                    $this->addFile($fileRepository, $file, $user, $mailer);
+                    return $this->redirectToRoute('app_admin_index', [], Response::HTTP_SEE_OTHER);
                 } else {
-                    $file->setName($documentFile->getClientOriginalName());
-                    $file->setPath($uploadDirectory . "/" . $documentFile->getClientOriginalName());
-                    $documentFile->move($uploadDirectory, $documentFile->getClientOriginalName());
-
+                    $this->addFlash('error', 'Le fichier que vous venez de tenter d\'ajouter n\'est pas conforme. Les fichiers ne possédant pas de format ne sont pas acceptés. Les formats acceptés sont les formats pdf, xlsx et xls.');
                 }
-                $file->setUser($userRepository->findOneByLogin($user_login));
-                $file->setCreatedAt(new \DateTimeImmutable());
-                $file->setFormat(pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION));;
-                $category = $categoryRepository->findOneByLabel($category_name);
-                $file->setCategory($category);
-
-                $this->addFile($fileRepository, $file, $user, $mailer);
-                return $this->redirectToRoute('app_admin_index', [], Response::HTTP_SEE_OTHER);
             } catch (\Exception $e) {
-                $this->addFlash('error', 'Le fichier que vous venez de tenter d\'ajouter n\'est pas conforme. Les fichiers ne possédant pas de format ne sont pas acceptés. Les formats acceptés sont les formats pdf, xlsx et xls.');
+                $this->addFlash('error', 'Erreur lors de l\'import. Le fichier que vous venez de tenter d\'ajouter n\'est pas conforme.');
             }
         }
 
@@ -180,7 +190,7 @@ class AdminController extends AbstractController
     {
         try {
             $email = (new TemplatedEmail())
-                ->from(new Address('espace.client.lpdawin@gmail.com', 'Espace Client'))
+                ->from(new Address(strval($_ENV["EMAIL"]), strval($_ENV["NAME_EMAIL"])))
                 ->to($user->getEmail())
                 ->subject('Nouveau fichier disponible')
                 ->htmlTemplate('mail/alerte_nouveau_fichier_dispo.html.twig')
@@ -210,48 +220,53 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $documentFile = $form['document']->getData();
-            $uploadDirectory = '../src/Document/ImportUser/';
-            $name = pathinfo($documentFile->getClientOriginalName(), PATHINFO_FILENAME);
-            $path = $name . "." . pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION);
-            $documentFile->move($uploadDirectory, $path);
-            $new_path = $uploadDirectory . $path;
+            if (pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION) === 'csv') {
+                $uploadDirectory = '../src/Document/ImportUser/';
+                $name = pathinfo($documentFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $path = $name . "." . pathinfo($documentFile->getClientOriginalName(), PATHINFO_EXTENSION);
+                $documentFile->move($uploadDirectory, $path);
+                $new_path = $uploadDirectory . $path;
 
-            if (file_exists($new_path)) {
-                $array = [];
-                $file_csv = fopen($new_path, "r");
-                $data = fgetcsv($file_csv, 1000, ",");
-                while (($data = fgetcsv($file_csv, 1000, ",")) !== FALSE) {
-                    // Read the data
-                    $array[] = $data;
-                }
-                fclose($file_csv);
-                try {
-                    for ($i = 0; $i < count($array); $i++) {
-                        $user = new User();
-                        $user->setRoles(["ROLE_USER"])
-                            ->setIsAdmin(0)
-                            ->setEnterprise(str_ireplace("\x92", "'", strval($array[$i][0])))
-                            ->setCivility(strval($array[$i][1]))
-                            ->setLastname(str_ireplace("\x92", "'", strval($array[$i][2])))
-                            ->setFirstname(str_ireplace("\x92", "'", strval($array[$i][3])))
-                            ->setEmail(strval($array[$i][4]))
-                            ->setLogin($array[$i][0]);
-                        $mdpRandom = User::randomPassword();
-                        $user->setPassword($userPasswordHasher->hashPassword($user, $mdpRandom));
-                        if ($userRepository->findOneBy(['email' => strval($array[$i][4])]) == null) {
-                            $userRepository->add($user, true);
-                        }
+                if (file_exists($new_path)) {
+                    $array = [];
+                    $file_csv = fopen($new_path, "r");
+                    $data = fgetcsv($file_csv, 1000, ",");
+                    while (($data = fgetcsv($file_csv, 1000, ",")) !== FALSE) {
+                        // Read the data
+                        $array[] = $data;
                     }
-                    $this->addFlash('success', 'Import réalisé avec succès.');
-                } catch (\Exception $e) {
-                    $this->addFlash('error', 'L\'email contenant les identifiants de 
+                    fclose($file_csv);
+                    try {
+                        for ($i = 0; $i < count($array); $i++) {
+                            $user = new User();
+                            $user->setRoles(["ROLE_USER"])
+                                ->setIsAdmin(0)
+                                ->setEnterprise(str_ireplace("\x92", "'", strval($array[$i][0])))
+                                ->setCivility(strval($array[$i][1]))
+                                ->setLastname(str_ireplace("\x92", "'", strval($array[$i][2])))
+                                ->setFirstname(str_ireplace("\x92", "'", strval($array[$i][3])))
+                                ->setEmail(strval($array[$i][4]))
+                                ->setLogin($array[$i][0]);
+                            $mdpRandom = User::randomPassword();
+                            $user->setPassword($userPasswordHasher->hashPassword($user, $mdpRandom));
+                            if ($userRepository->findOneBy(['email' => strval($array[$i][4])]) == null) {
+                                $userRepository->add($user, true);
+                            }
+                        }
+                        $this->addFlash('success', 'Import réalisé avec succès.');
+
+                        if (file_exists($new_path)) {
+                            unlink($new_path);
+                        }
+                    } catch (\Exception $e) {
+                        $this->addFlash('error', 'L\'email contenant les identifiants de 
                 première connexion du nouvel utilisateur n\'a pas pu être envoyé à l\'adresse mail renseignée');
-                } catch (ORMException $ORMException) {
-                    $this->addFlash('error', 'Utilisateur non créé.');
+                    } catch (ORMException $ORMException) {
+                        $this->addFlash('error', 'Utilisateur non créé.');
+                    }
                 }
-            }
-            if (file_exists($path)) {
-                unlink($path);
+            } else {
+                $this->addFlash('error', 'Le fichier que vous venez de tenter d\'ajouter n\'est pas conforme. Les fichiers ne possédant pas de format ne sont pas acceptés. Seul le format csv est accepté.');
             }
 
             return $this->redirectToRoute('app_admin_index', [], Response::HTTP_SEE_OTHER);

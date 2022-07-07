@@ -156,7 +156,7 @@ class ResetPasswordController extends AbstractController
         }
 
         $email = (new TemplatedEmail())
-            ->from(new Address('espace.client.lpdawin@gmail.com', 'Espace Client'))
+            ->from(strval($_ENV["EMAIL"]), strval($_ENV["NAME_EMAIL"]))
             ->to($user->getEmail())
             ->subject('Votre demande de réinitialisation de mot de passe')
             ->htmlTemplate('reset_password/email.html.twig')

@@ -65,6 +65,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $u->where(
             $u->expr()->like('u.enterprise', ':search')
             )
+            ->andWhere('u.isAdmin = 0')
             ->setParameter('search', '%' . $value . '%')
             ->orderBy('u.enterprise', 'ASC')
             ->getQuery()
