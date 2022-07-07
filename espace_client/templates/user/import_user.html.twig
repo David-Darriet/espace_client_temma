@@ -11,7 +11,8 @@
     <div class="page_header">
         <h1>Importer des clients</h1>
     </div>
-
+    <p>Pour importer des clients, seul le format csv est accepté. Votre csv doit contenir 5 colonnes qui doivent être dans cette ordre : Client, Titre, Nom, Prénom et Email.
+    </p>
     {{ form_start(form) }}
     {{ form_widget(form) }}
 
@@ -19,7 +20,6 @@
 
     {{ form_end(form) }}
 
-    </div>
 {% endblock %}
 
 {% block javascripts %}

@@ -13,7 +13,7 @@ class ImportUserType extends AbstractType
         $builder
             ->add('document', FileTypeSymfony::class, [
                 "mapped" => false,
-                "label" => "Veuillez choisir un fichier csv conforme au fichier d'exemple",
+                "label" => "Veuillez choisir un fichier",
                 'attr'=>['class'=>'zone-upload']
             ])
         ;
