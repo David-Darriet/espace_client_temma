@@ -69,10 +69,13 @@ Si besoin de supprimer la base :
 
 `composer install --no-dev --optimize-autoloader
 `
-`php bin/console cache:clear --end=prod --no-debug
+
+`php bin/console cache:clear --env=prod --no-debug
 `
+
 `composer dump-env prod
 `
+
 `symfony serve -d
 `
 

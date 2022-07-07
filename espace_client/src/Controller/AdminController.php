@@ -85,7 +85,7 @@ class AdminController extends AbstractController
                 $this->addFlash('error', 'Utilisateur non créé.');
             } catch (\Exception $e) {
                 $this->addFlash('error', 'L\'email contenant les identifiants de 
-                première connexion du nouvel utilisateur n\'a pas pu être envoyé à l\'adresse mail renseignée');
+                première connexion du nouvel utilisateur n\'a pas pu être envoyé à l\'adresse mail renseignée.');
             }
 
             return $this->redirectToRoute('app_admin_index', [], Response::HTTP_SEE_OTHER);

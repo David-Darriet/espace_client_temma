@@ -23,7 +23,7 @@ class ChangePasswordFormType extends AbstractType
                         'class'=>'container-auth-input input'],
                     'constraints' => [
                         new NotBlank([
-                            'message' => 'Please enter a password',
+                            'message' => 'Veuillez entrer un mot de passe',
                         ]),
                         new Length([
                             'min' => 8,
@@ -31,7 +31,7 @@ class ChangePasswordFormType extends AbstractType
                             // max length allowed by Symfony for security reasons
                             'max' => 4096,
                         ]),
-                        new Regex('/^(?=.*[!@#$%^&*-\.\?])(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{8,20}$/', "Votre mot de passe n'est pas assez fort, il doit comporter au moins 8 caractères dont 1 chiffre, 1 caractère spécial et 1 lettre.")
+                        new Regex('/^(?=.*[!@#$%^&\*-\.\?\/])(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{8,20}$/', "Votre mot de passe n'est pas assez fort, il doit comporter au moins 8 caractères dont 1 chiffre, 1 caractère spécial, 1 lettre majuscule et 1 lettre minuscule.")
                     ],
                     'label' => 'Nouveau mot de passe',
                 ],
@@ -40,7 +40,7 @@ class ChangePasswordFormType extends AbstractType
                         'class'=>'container-auth-input input'],
                     'label' => 'Confirmation du mot de passe',
                 ],
-                'invalid_message' => 'The password fields must match.',
+                'invalid_message' => 'Les deux mots de passe doivent être identiques',
                 // Instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,

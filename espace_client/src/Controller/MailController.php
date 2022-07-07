@@ -34,7 +34,7 @@ class MailController extends AbstractController
                 );
             $mailer->send($email);
             $this->addFlash('success', 'Le mail d\'envoi des identifiants du client ' .
-                $user->getEnterprise() . ' lui a bien été envoyé');
+                $user->getEnterprise() . ' lui a bien été envoyé.');
         }
         catch(\Exception $e){
             $this->addFlash('error', 'Impossible d\'envoyer le mail d\'envoi des identifiants du client ' .

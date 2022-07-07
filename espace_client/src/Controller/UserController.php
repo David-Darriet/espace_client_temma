@@ -49,10 +49,10 @@ class UserController extends AbstractController
 
             if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
                 $userRepository->remove($user, true);
-                $this->addFlash('success', 'Le client .'.$user->getEnterprise().' a bien été supprimé.');
+                $this->addFlash('success', 'Le client '.$user->getEnterprise().' a bien été supprimé.');
             }
         }else {
-            $this->addFlash('error', 'Impossible de supprimer le client .'.$user->getEnterprise().' car ce client a des fichiers lui étant relié.');
+            $this->addFlash('error', 'Impossible de supprimer le client '.$user->getEnterprise().' car ce client a des fichiers lui étant relié.');
         }
         return $this->redirectToRoute('app_admin_index', [], Response::HTTP_SEE_OTHER);
     }
