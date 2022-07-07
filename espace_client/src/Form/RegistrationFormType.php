@@ -44,7 +44,7 @@ class RegistrationFormType extends AbstractType
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
-                    new Regex('/^(?=.*[!@#$%^&*-\.\?])(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{8,20}$/', "Votre mot de passe n'est pas assez fort")
+                    new Regex('/^(?=.*[!@#$%^&*-\.\?])(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{8,20}$/', "Votre mot de passe n'est pas assez fort, il doit comporter au moins 8 caractères dont 1 chiffre, 1 caractère spécial et 1 lettre.")
                 ],
             ])
         ;
