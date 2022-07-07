@@ -79,9 +79,11 @@ Si besoin de supprimer la base :
 `symfony serve -d
 `
 
-## importer une base
+## Importer une base
 
+A faire dans un terminal, dans le dossier `espace_client` :
 
+`mysql -u <nom de l'utilisateur de la base> <nom de la base> < <nom_du_fichier_sql>`
 
 ## Répartition du travail 
 

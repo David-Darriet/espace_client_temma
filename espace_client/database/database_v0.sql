@@ -25,13 +25,13 @@ INSERT INTO `category` (`id`, `label`, `icon`) VALUES
 -- Listage des données de la table temma.doctrine_migration_versions : ~7 rows (environ)
 /*!40000 ALTER TABLE `doctrine_migration_versions` DISABLE KEYS */;
 INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
-	('DoctrineMigrations\\Version20220629084511', '2022-07-07 11:31:54', 816),
-	('DoctrineMigrations\\Version20220630140507', '2022-07-07 11:31:55', 39),
-	('DoctrineMigrations\\Version20220630141010', '2022-07-07 11:31:55', 40),
-	('DoctrineMigrations\\Version20220701090650', '2022-07-07 11:31:55', 100),
-	('DoctrineMigrations\\Version20220705140912', '2022-07-07 11:31:55', 115),
-	('DoctrineMigrations\\Version20220705151955', '2022-07-07 11:31:55', 46),
-	('DoctrineMigrations\\Version20220706065202', '2022-07-07 11:31:55', 38);
+	('DoctrineMigrations\\Version20220629084511', '2022-07-07 12:06:45', 284),
+	('DoctrineMigrations\\Version20220630140507', '2022-07-07 12:06:46', 54),
+	('DoctrineMigrations\\Version20220630141010', '2022-07-07 12:06:46', 45),
+	('DoctrineMigrations\\Version20220701090650', '2022-07-07 12:06:46', 98),
+	('DoctrineMigrations\\Version20220705140912', '2022-07-07 12:06:46', 95),
+	('DoctrineMigrations\\Version20220705151955', '2022-07-07 12:06:46', 39),
+	('DoctrineMigrations\\Version20220706065202', '2022-07-07 12:06:46', 41);
 /*!40000 ALTER TABLE `doctrine_migration_versions` ENABLE KEYS */;
 
 -- Listage des données de la table temma.file : ~0 rows (environ)
@@ -45,8 +45,7 @@ INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_
 -- Listage des données de la table temma.user : ~2 rows (environ)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `email`, `password`, `firstname`, `lastname`, `is_verified`, `enterprise`, `civility`, `login`, `roles`, `is_admin`) VALUES
-	(1, 'bob@test.fr', '$2y$13$PndnWy.1vggaDgxE.XhqE.t/M8vVphJk43zWCZgkWcOkZhqNqD5UO', 'bob', 'TestLastname', 1, 'bob', 'Monsieur', 'tesjMsJ', '["ROLE_USER"]', 0),
-	(2, 'admin@admin.fr', '$2y$13$H1gM21M7MnMs4JPMfD3QM.UUtA3hCeXtwStp3ERsJJtf2vYFKHHuO', 'Admin', 'Admin', 1, 'Temma', 'Monsieur', 'admD7rJ', '["ROLE_ADMIN"]', 1);
+	(2, 'admin@admin.fr', '$2y$13$xvHx3CSTtR0A14a0M.lApe49DT9CMS.0tnwERpDN9TL9kQGohMlz2', 'Admin', 'Admin', 1, 'Temma', 'Monsieur', 'adminLP', '["ROLE_ADMIN"]', 1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
