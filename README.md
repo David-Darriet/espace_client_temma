@@ -51,7 +51,7 @@ Dans un terminal, faire :
 `php bin/console doctrine:migrations:migrate`
 
 
-### Fixtures
+### Fixtures (dev uniquement)
 Pour ajouter des données dans la base (ex: les dossiers).
 
 Dans un terminal, faire la commande :
@@ -64,3 +64,17 @@ Si besoin de supprimer la base :
 
 `php bin/console doctrine:schema:drop --full-database --force
 `
+
+## Mise en production
+
+composer install --no-dev --optimize-autoloader
+
+php bin/console cache:clear --end=prod --no-debug
+
+composer dump-env prod
+
+symfony serve -d
+
+
+## importer une base
+
