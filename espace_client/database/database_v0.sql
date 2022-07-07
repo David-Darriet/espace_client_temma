@@ -22,18 +22,6 @@ INSERT INTO `category` (`id`, `label`, `icon`) VALUES
 	(5, 'Echanges', 'fa-headset');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 
--- Listage des données de la table temma.doctrine_migration_versions : ~7 rows (environ)
-/*!40000 ALTER TABLE `doctrine_migration_versions` DISABLE KEYS */;
-INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
-	('DoctrineMigrations\\Version20220629084511', '2022-07-07 12:06:45', 284),
-	('DoctrineMigrations\\Version20220630140507', '2022-07-07 12:06:46', 54),
-	('DoctrineMigrations\\Version20220630141010', '2022-07-07 12:06:46', 45),
-	('DoctrineMigrations\\Version20220701090650', '2022-07-07 12:06:46', 98),
-	('DoctrineMigrations\\Version20220705140912', '2022-07-07 12:06:46', 95),
-	('DoctrineMigrations\\Version20220705151955', '2022-07-07 12:06:46', 39),
-	('DoctrineMigrations\\Version20220706065202', '2022-07-07 12:06:46', 41);
-/*!40000 ALTER TABLE `doctrine_migration_versions` ENABLE KEYS */;
-
 -- Listage des données de la table temma.file : ~0 rows (environ)
 /*!40000 ALTER TABLE `file` DISABLE KEYS */;
 /*!40000 ALTER TABLE `file` ENABLE KEYS */;
