@@ -1,8 +1,12 @@
 # espace_client_temma
-Projet de la semaine d'innovation. Création d'un espace client pour l'entreprise Temma, notre premier client et bêta testeur.
+Projet de la semaine d'innovation. 
+
+Création d'un espace client pour l'entreprise Temma, notre premier client et bêta testeur.
 Projet du 27 Juin au 8 Juillet.
 
-Ce projet a été réalisé par 3 étudiants en moins de 15 jours, des bugs sont succeptibles d'être présents.
+Ce projet a été réalisé par 3 étudiants en moins de 15 jours, des bugs sont susceptibles d'être présents.
+
+Un présentation du projet est consultable via ce lien : https://aelhya.github.io/presentation_projet_innovation_numerique_2022/ 
 
 ## Cloner le projet
 
